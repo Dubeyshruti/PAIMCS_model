@@ -53,7 +53,7 @@ class,subject,title,class_char,lang_char,title_char,ch_prefix,chapters,preName
 11,Geography,Prayogatmak,k,h,gy,30,6,khgy30
 11,History,ThemesWorldHistory,k,e,hs,10,7,kehs10
 11,History,VishwaItihaasVishay,k,h,hs,10,7,khhs10
-11,KnowledgeTraditionPracticesIndia,,k,e,ks,10,9,keks10
+11,KnowledgeTraditionPracticesIndia, ,k,e,ks,10,9,keks10
 11,PoliticalScience,IndianConstitutionWork,k,e,ps,20,10,keps20
 11,PoliticalScience,PoliticialTheory,k,e,ps,10,8,keps10
 11,PoliticalScience,RajneetiShastra,k,h,ps,10,8,khps10
