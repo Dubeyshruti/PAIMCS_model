@@ -10,4 +10,4 @@ for index, book in booklist.iterrows():
         else:
             downloadLink = f"https://ncert.nic.in/textbook/pdf/{book.preName[:-1]}{chapter}.pdf"
         pdf_urls['pdfName'].append(pdfName); pdf_urls["downloadLink"].append(downloadLink)
-DataFrame(pdf_urls).to_csv("pdf_urls.csv")
+DataFrame(pdf_urls).to_csv("pdf_urls.csv", index=False)
