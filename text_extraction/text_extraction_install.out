@@ -1,8 +1,17 @@
-Requirement already satisfied: PyPDF2==3.0.1 in /usr/local/lib/python3.11/dist-packages (from -r text_extraction_requirements.txt (line 1)) (3.0.1)
+Collecting PyPDF2==3.0.1 (from -r text_extraction_requirements.txt (line 1))
+  Downloading pypdf2-3.0.1-py3-none-any.whl.metadata (6.8 kB)
 Requirement already satisfied: tqdm==4.67.1 in /usr/local/lib/python3.11/dist-packages (from -r text_extraction_requirements.txt (line 2)) (4.67.1)
 Requirement already satisfied: pandas==2.2.2 in /usr/local/lib/python3.11/dist-packages (from -r text_extraction_requirements.txt (line 3)) (2.2.2)
+Requirement already satisfied: pytesseract==0.3.13 in /usr/local/lib/python3.11/dist-packages (from -r text_extraction_requirements.txt (line 4)) (0.3.13)
+Requirement already satisfied: pdf2image==1.17.0 in /usr/local/lib/python3.11/dist-packages (from -r text_extraction_requirements.txt (line 5)) (1.17.0)
 Requirement already satisfied: numpy>=1.23.2 in /usr/local/lib/python3.11/dist-packages (from pandas==2.2.2->-r text_extraction_requirements.txt (line 3)) (1.26.4)
 Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.11/dist-packages (from pandas==2.2.2->-r text_extraction_requirements.txt (line 3)) (2.8.2)
 Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.11/dist-packages (from pandas==2.2.2->-r text_extraction_requirements.txt (line 3)) (2025.1)
 Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.11/dist-packages (from pandas==2.2.2->-r text_extraction_requirements.txt (line 3)) (2025.1)
+Requirement already satisfied: packaging>=21.3 in /usr/local/lib/python3.11/dist-packages (from pytesseract==0.3.13->-r text_extraction_requirements.txt (line 4)) (24.2)
+Requirement already satisfied: Pillow>=8.0.0 in /usr/local/lib/python3.11/dist-packages (from pytesseract==0.3.13->-r text_extraction_requirements.txt (line 4)) (11.1.0)
 Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.11/dist-packages (from python-dateutil>=2.8.2->pandas==2.2.2->-r text_extraction_requirements.txt (line 3)) (1.17.0)
+Downloading pypdf2-3.0.1-py3-none-any.whl (232 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 232.6/232.6 kB 14.3 MB/s eta 0:00:00
+Installing collected packages: PyPDF2
+Successfully installed PyPDF2-3.0.1
