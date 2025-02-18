@@ -1,13 +1,20 @@
-Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
-Hit:2 http://archive.ubuntu.com/ubuntu jammy-updates InRelease
-Hit:3 http://archive.ubuntu.com/ubuntu jammy-backports InRelease
-Hit:4 https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/ InRelease
-Hit:5 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  InRelease
-Hit:6 http://security.ubuntu.com/ubuntu jammy-security InRelease
-Hit:7 https://r2u.stat.illinois.edu/ubuntu jammy InRelease
+Get:1 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+Get:2 https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/ InRelease [3,632 B]
+Hit:3 http://archive.ubuntu.com/ubuntu jammy InRelease
+Get:4 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  InRelease [1,581 B]
+Get:5 https://r2u.stat.illinois.edu/ubuntu jammy InRelease [6,555 B]
+Get:6 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+Get:7 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [2,609 kB]
 Hit:8 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu jammy InRelease
 Hit:9 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
 Hit:10 https://ppa.launchpadcontent.net/ubuntugis/ppa/ubuntu jammy InRelease
+Get:11 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+Get:12 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  Packages [1,315 kB]
+Get:13 https://r2u.stat.illinois.edu/ubuntu jammy/main amd64 Packages [2,657 kB]
+Get:14 https://r2u.stat.illinois.edu/ubuntu jammy/main all Packages [8,677 kB]
+Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1,526 kB]
+Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [2,911 kB]
+Fetched 20.1 MB in 3s (7,972 kB/s)
 Reading package lists...
 Building dependency tree...
 Reading state information...
@@ -15,9 +22,6 @@ Reading state information...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-The following packages were automatically installed and are no longer required:
-  libbz2-dev libpkgconf3 libreadline-dev
-Use 'sudo apt autoremove' to remove them.
 The following additional packages will be installed:
   tesseract-ocr-eng tesseract-ocr-osd
 The following NEW packages will be installed:
@@ -28,9 +32,9 @@ After this operation, 15.6 MB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu jammy/universe amd64 tesseract-ocr-eng all 1:4.00~git30-7274cfa-1.1 [1,591 kB]
 Get:2 http://archive.ubuntu.com/ubuntu jammy/universe amd64 tesseract-ocr-osd all 1:4.00~git30-7274cfa-1.1 [2,990 kB]
 Get:3 http://archive.ubuntu.com/ubuntu jammy/universe amd64 tesseract-ocr amd64 4.1.1-2.1build1 [236 kB]
-Fetched 4,816 kB in 1s (5,197 kB/s)
+Fetched 4,816 kB in 1s (5,107 kB/s)
 Selecting previously unselected package tesseract-ocr-eng.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 125050 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124926 files and directories currently installed.)
 Preparing to unpack .../tesseract-ocr-eng_1%3a4.00~git30-7274cfa-1.1_all.deb ...
 Unpacking tesseract-ocr-eng (1:4.00~git30-7274cfa-1.1) ...
 Selecting previously unselected package tesseract-ocr-osd.
@@ -49,40 +53,30 @@ osd
 Reading package lists...
 Building dependency tree...
 Reading state information...
-The following packages were automatically installed and are no longer required:
-  libbz2-dev libpkgconf3 libreadline-dev
-Use 'sudo apt autoremove' to remove them.
 The following NEW packages will be installed:
   tesseract-ocr-hin
 0 upgraded, 1 newly installed, 0 to remove and 22 not upgraded.
 Need to get 913 kB of archives.
 After this operation, 1,138 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu jammy/universe amd64 tesseract-ocr-hin all 1:4.00~git30-7274cfa-1.1 [913 kB]
-Fetched 913 kB in 1s (1,355 kB/s)
+Fetched 913 kB in 0s (6,203 kB/s)
 Selecting previously unselected package tesseract-ocr-hin.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 125097 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124973 files and directories currently installed.)
 Preparing to unpack .../tesseract-ocr-hin_1%3a4.00~git30-7274cfa-1.1_all.deb ...
 Unpacking tesseract-ocr-hin (1:4.00~git30-7274cfa-1.1) ...
 Setting up tesseract-ocr-hin (1:4.00~git30-7274cfa-1.1) ...
-List of available languages (3):
-eng
-hin
-osd
 Reading package lists...
 Building dependency tree...
 Reading state information...
-The following packages were automatically installed and are no longer required:
-  libbz2-dev libpkgconf3 libreadline-dev
-Use 'sudo apt autoremove' to remove them.
 The following NEW packages will be installed:
   poppler-utils
 0 upgraded, 1 newly installed, 0 to remove and 22 not upgraded.
 Need to get 186 kB of archives.
 After this operation, 696 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 poppler-utils amd64 22.02.0-2ubuntu0.6 [186 kB]
-Fetched 186 kB in 0s (1,594 kB/s)
+Fetched 186 kB in 1s (242 kB/s)
 Selecting previously unselected package poppler-utils.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 125101 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124977 files and directories currently installed.)
 Preparing to unpack .../poppler-utils_22.02.0-2ubuntu0.6_amd64.deb ...
 Unpacking poppler-utils (22.02.0-2ubuntu0.6) ...
 Setting up poppler-utils (22.02.0-2ubuntu0.6) ...
