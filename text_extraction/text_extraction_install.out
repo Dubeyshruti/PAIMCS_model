@@ -14,7 +14,7 @@ Requirement already satisfied: packaging>=21.3 in /usr/local/lib/python3.11/dist
 Requirement already satisfied: Pillow>=8.0.0 in /usr/local/lib/python3.11/dist-packages (from pytesseract==0.3.13->-r text_extraction_requirements.txt (line 4)) (11.1.0)
 Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.11/dist-packages (from python-dateutil>=2.8.2->pandas==2.2.2->-r text_extraction_requirements.txt (line 3)) (1.17.0)
 Downloading pypdf2-3.0.1-py3-none-any.whl (232 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 232.6/232.6 kB 13.7 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 232.6/232.6 kB 4.4 MB/s eta 0:00:00
 Downloading pytesseract-0.3.13-py3-none-any.whl (14 kB)
 Downloading pdf2image-1.17.0-py3-none-any.whl (11 kB)
 Installing collected packages: pytesseract, PyPDF2, pdf2image

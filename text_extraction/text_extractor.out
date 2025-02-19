@@ -1,4 +1,6 @@
 No progress file found, starting from scratch.
 Resuming extraction. 0 PDFs already processed. 675 PDFs remaining.
 Resuming extraction. 26 PDFs already processed. 649 PDFs remaining.
-Resuming extraction. 26 PDFs already processed. 649 PDFs remaining.
+Resuming extraction. 26 PDFs already processed. 649 PDFs remaining.Resuming extraction. 112 PDFs already processed. 563 PDFs remaining.
+Error processing 12_Biology_e_2.pdf: Invalid Elementary Object starting with b'\xd4' @2669637: b'\x04\x07\x00\x00\x15\x0b\x00\x00-\x1a\x00\x00 \x14\x00\x00EI\x009\xd4\xa8\x1f;\x92\x88\x1c\x87\xcc\xb6E\x95\xd3\xadOX\xcb\x9a/\x05\x08\x08\x00\nEI Q\nQ\nq\n0.24 0 0 0.24 0 0 cm\n2107.4'
+Error processing 10_Science_e_Science4.pdf: Invalid Elementary Object starting with b'\x0c' @1740309: b'\r\x00DI\r\x00DH\r\x00CG\r\x00BF\r\x00AE\x0c\x00AE\x0c\x00@D\x0c\x00?C\x0c\x00?B\x0c\x00?B\x0c\x00>A\x0c\x00=@\x0c\x00<>\x0c\x00<>\x0c\x00<>\x0c\x00;<\x0c\x00;<\x0c\x00;;\x0c\x00:;\x0c\x00:;'
