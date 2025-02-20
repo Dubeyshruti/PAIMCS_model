@@ -1,26 +1,26 @@
-Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
-Get:2 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
-Get:3 https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/ InRelease [3,632 B]
-Get:4 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  InRelease [1,581 B]
-Get:5 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
-Get:6 https://r2u.stat.illinois.edu/ubuntu jammy InRelease [6,555 B]
-Get:7 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+Get:1 https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/ InRelease [3,632 B]
+Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  InRelease [1,581 B]
+Get:3 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+Get:4 https://r2u.stat.illinois.edu/ubuntu jammy InRelease [6,555 B]
+Hit:5 http://archive.ubuntu.com/ubuntu jammy InRelease
+Get:6 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+Get:7 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  Packages [1,317 kB]
 Hit:8 https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu jammy InRelease
-Hit:9 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
-Get:10 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  Packages [1,317 kB]
+Get:9 https://r2u.stat.illinois.edu/ubuntu jammy/main amd64 Packages [2,661 kB]
+Hit:10 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
 Hit:11 https://ppa.launchpadcontent.net/ubuntugis/ppa/ubuntu jammy InRelease
-Get:12 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1,526 kB]
-Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [2,939 kB]
-Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [3,793 kB]
-Get:15 https://r2u.stat.illinois.edu/ubuntu jammy/main all Packages [8,687 kB]
-Get:16 https://r2u.stat.illinois.edu/ubuntu jammy/main amd64 Packages [2,660 kB]
-Get:17 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1,230 kB]
-Get:18 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [2,610 kB]
-Fetched 25.2 MB in 3s (8,414 kB/s)
+Get:12 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+Get:13 https://r2u.stat.illinois.edu/ubuntu jammy/main all Packages [8,692 kB]
+Get:14 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [2,610 kB]
+Get:15 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1,230 kB]
+Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [2,939 kB]
+Get:17 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [3,793 kB]
+Get:18 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1,526 kB]
+Fetched 25.2 MB in 3s (9,193 kB/s)
 Reading package lists...
 Building dependency tree...
 Reading state information...
-26 packages can be upgraded. Run 'apt list --upgradable' to see them.
+30 packages can be upgraded. Run 'apt list --upgradable' to see them.
 Reading package lists...
 Building dependency tree...
 Reading state information...
@@ -28,13 +28,13 @@ The following additional packages will be installed:
   tesseract-ocr-eng tesseract-ocr-osd
 The following NEW packages will be installed:
   tesseract-ocr tesseract-ocr-eng tesseract-ocr-osd
-0 upgraded, 3 newly installed, 0 to remove and 26 not upgraded.
+0 upgraded, 3 newly installed, 0 to remove and 30 not upgraded.
 Need to get 4,816 kB of archives.
 After this operation, 15.6 MB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu jammy/universe amd64 tesseract-ocr-eng all 1:4.00~git30-7274cfa-1.1 [1,591 kB]
 Get:2 http://archive.ubuntu.com/ubuntu jammy/universe amd64 tesseract-ocr-osd all 1:4.00~git30-7274cfa-1.1 [2,990 kB]
 Get:3 http://archive.ubuntu.com/ubuntu jammy/universe amd64 tesseract-ocr amd64 4.1.1-2.1build1 [236 kB]
-Fetched 4,816 kB in 1s (5,135 kB/s)
+Fetched 4,816 kB in 1s (4,254 kB/s)
 Selecting previously unselected package tesseract-ocr-eng.
 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124926 files and directories currently installed.)
 Preparing to unpack .../tesseract-ocr-eng_1%3a4.00~git30-7274cfa-1.1_all.deb ...
@@ -54,11 +54,11 @@ Building dependency tree...
 Reading state information...
 The following NEW packages will be installed:
   poppler-utils
-0 upgraded, 1 newly installed, 0 to remove and 26 not upgraded.
+0 upgraded, 1 newly installed, 0 to remove and 30 not upgraded.
 Need to get 186 kB of archives.
 After this operation, 696 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 poppler-utils amd64 22.02.0-2ubuntu0.6 [186 kB]
-Fetched 186 kB in 0s (1,483 kB/s)
+Fetched 186 kB in 1s (317 kB/s)
 Selecting previously unselected package poppler-utils.
 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124973 files and directories currently installed.)
 Preparing to unpack .../poppler-utils_22.02.0-2ubuntu0.6_amd64.deb ...
@@ -70,16 +70,25 @@ Building dependency tree...
 Reading state information...
 The following NEW packages will be installed:
   tesseract-ocr-hin
-0 upgraded, 1 newly installed, 0 to remove and 26 not upgraded.
+0 upgraded, 1 newly installed, 0 to remove and 30 not upgraded.
 Need to get 913 kB of archives.
 After this operation, 1,138 kB of additional disk space will be used.
 Get:1 http://archive.ubuntu.com/ubuntu jammy/universe amd64 tesseract-ocr-hin all 1:4.00~git30-7274cfa-1.1 [913 kB]
-Fetched 913 kB in 0s (6,725 kB/s)
+Fetched 913 kB in 1s (1,134 kB/s)
 Selecting previously unselected package tesseract-ocr-hin.
 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 125003 files and directories currently installed.)
 Preparing to unpack .../tesseract-ocr-hin_1%3a4.00~git30-7274cfa-1.1_all.deb ...
 Unpacking tesseract-ocr-hin (1:4.00~git30-7274cfa-1.1) ...
 Setting up tesseract-ocr-hin (1:4.00~git30-7274cfa-1.1) ...
+List of available languages (3):
+eng
+hin
+osd
+Reading package lists...
+Building dependency tree...
+Reading state information...
+poppler-utils is already the newest version (22.02.0-2ubuntu0.6).
+0 upgraded, 0 newly installed, 0 to remove and 30 not upgraded.
 List of available languages (3):
 eng
 hin
