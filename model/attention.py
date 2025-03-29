@@ -1,95 +1,99 @@
-from tensorflow import Tensor, cast, shape, float16, matmul, sqrt, split, concat, reshape, transpose
-from tensorflow.nn import softmax
-from tensorflow.keras import layers
-from tensorflow.random import normal
-from rope import apply_rotary_pos_emb
+# ===============================
+# ProjectionWithKernel for Q/K/V Projections
+# ===============================
+class ProjectionWithKernel(layers.Layer):
+    def __init__(self, output_dim: int, conv_channels: int, groups: int,
+                 num_features_per_scale: int, gamma_list: List[float], dropout_rate: float = 0.1, **kwargs) -> None:
+        """
+        Projects inputs to a desired dimension using grouped conv and multi-scale kernel features.
+        Args:
+            output_dim: Target output dimension.
+            conv_channels: Input channels for conv.
+            groups: Number of groups.
+            num_features_per_scale: Features per scale.
+            gamma_list: List of gamma values.
+            dropout_rate: Dropout probability.
+        """
+        super().__init__(**kwargs)
+        self.conv_proj = GroupedPointwiseConv1D(conv_channels, conv_channels, groups, dropout_rate)
+        self.multi_scale = MultiScaleKernelFeatures(conv_channels, num_features_per_scale, gamma_list, dropout_rate)
+        self.final_dense = layers.Dense(output_dim)
 
-def scaled_dot_product_attention(q: Tensor, k: Tensor, v: Tensor, sin: Tensor, cos: Tensor) -> Tensor:
-    """Computes scaled dot–product attention with rotary embeddings. No masking is applied."""
-    q = apply_rotary_pos_emb(q, sin, cos)
-    k = apply_rotary_pos_emb(k, sin, cos)
-    dk = cast(shape(k)[-1], float16)
-    scaled_logits = matmul(q, k, transpose_b=True) / sqrt(dk)
-    attn_weights = softmax(scaled_logits, axis=-1)
-    return matmul(attn_weights, v)
+    def call(self, x: tf.Tensor, training: bool = False) -> tf.Tensor:
+        x = self.conv_proj(x, training=training)
+        x = self.multi_scale(x, training=training)
+        return self.final_dense(x)
 
-class GroupedPointwiseConv(layers.Layer):
-    def __init__(self, filters: int, groups: int = 3, **kwargs):
-        super().__init__(dtype=float16, **kwargs)
-        if filters % groups != 0:
-            raise ValueError("filters must be divisible by groups")
-        self.groups = groups
-        self.group_convs = [
-            layers.Conv1D(filters // groups, kernel_size=1, padding='same', use_bias=False, dtype='float16')
-            for _ in range(groups)
-        ]
+# ========================================
+# Multi-Head FAVOR+ Attention with Nyström Integration
+# ========================================
+class MultiHeadFAVORAttention(layers.Layer):
+    def __init__(self, num_heads: int, attn_dim: int, num_random_features: int,
+                 conv_channels: int, groups: int, num_features_per_scale: int, gamma_list: List[float],
+                 nystrom_landmarks: int, dropout_rate: float = 0.1, **kwargs) -> None:
+        """
+        Multi-head FAVOR+ attention using ProjectionWithKernel for Q/K/V and fully integrated Nyström for keys.
+        Args:
+            num_heads: Number of attention heads.
+            attn_dim: Total attention dimension.
+            num_random_features: Random features per head.
+            conv_channels: Input channels for projection.
+            groups: Groups for conv.
+            num_features_per_scale: Features per scale for projection.
+            gamma_list: List of gamma values.
+            nystrom_landmarks: Number of landmarks for Nyström.
+            dropout_rate: Dropout rate.
+        """
+        super().__init__(**kwargs)
+        self.num_heads: int = num_heads
+        self.attn_dim: int = attn_dim
+        self.head_dim: int = attn_dim // num_heads
+        self.num_random_features: int = num_random_features
+        self.dropout_rate: float = dropout_rate
 
-    def call(self, inputs: Tensor) -> Tensor:
-        return concat(
-            [conv(x) for conv, x in zip(self.group_convs, split(inputs, self.groups, axis=-1))],
-            axis=-1
-        )
+        self.query_proj = ProjectionWithKernel(attn_dim, conv_channels, groups, num_features_per_scale, gamma_list, dropout_rate)
+        self.key_proj   = ProjectionWithKernel(attn_dim, conv_channels, groups, num_features_per_scale, gamma_list, dropout_rate)
+        self.value_proj = ProjectionWithKernel(attn_dim, conv_channels, groups, num_features_per_scale, gamma_list, dropout_rate)
+        self.out_dense = layers.Dense(attn_dim)
+        self.favor_proj = FAVORProjection(self.head_dim, self.num_random_features)
+        self.dropout = layers.Dropout(self.dropout_rate)
+        # Fully integrate Nyström for keys (non-optional)
+        self.nystrom = NystromFeatures(nystrom_landmarks, gamma=1.0)
 
-class MultiHeadAttention(layers.Layer):
-    def __init__(self, d_model: int = 360, num_heads: int = 3, groups: int = 3, **kwargs):
-        super().__init__(dtype=float16, **kwargs)
-        if d_model % num_heads != 0:
-            raise ValueError("d_model must be divisible by num_heads")
-        self.num_heads = num_heads
-        self.d_model = d_model
-        self.depth = d_model // num_heads  # per-head dimension
+    def split_heads(self, x: tf.Tensor, batch_size: tf.Tensor, seq_len: tf.Tensor) -> tf.Tensor:
+        x = tf.reshape(x, (batch_size, seq_len, self.num_heads, self.head_dim))
+        return tf.transpose(x, perm=[0, 2, 1, 3])
 
-        self.wq = GroupedPointwiseConv(d_model, groups)
-        self.wk = GroupedPointwiseConv(d_model, groups)
-        self.wv = GroupedPointwiseConv(d_model, groups)
-        self.dense = GroupedPointwiseConv(d_model, groups)
-
-    def split_heads(self, x: Tensor, batch_size: int) -> Tensor:
-        # Reshape x from (batch_size, seq_len, d_model) to (batch_size, seq_len, num_heads, depth), then transpose to (batch_size, num_heads, seq_len, depth)
-        return transpose(reshape(x, (batch_size, -1, self.num_heads, self.depth)), perm=[0, 2, 1, 3])
-
-    def call(self, v: Tensor, k: Tensor, q: Tensor, sin: Tensor, cos: Tensor) -> Tensor:
-        batch_size = shape(q)[0]
-        q = self.split_heads(self.wq(q), batch_size)
-        k = self.split_heads(self.wk(k), batch_size)
-        v = self.split_heads(self.wv(v), batch_size)
-        attn_out = transpose(scaled_dot_product_attention(q, k, v, sin, cos), perm=[0, 2, 1, 3])
-        return self.dense(reshape(attn_out, (batch_size, -1, self.d_model)))
-
-def main() -> None:
-    # Parameters
-    batch_size = 2; seq_len = 10; d_model = 360; num_heads = 3; groups = 3
-    depth = d_model // num_heads    # For MultiHeadAttention, depth = 360/3 = 120
-    d_half = depth // 2             # Each rotary embedding half: 120/2 = 60
-
-    # --- Test Scaled Dot–Product Attention  ---
-    # Here, we assume inputs are already split into heads:- Shape: (batch_size, num_heads, seq_len, depth)
-    q_att = normal((batch_size, num_heads, seq_len, depth), dtype=float16)
-    k_att = normal((batch_size, num_heads, seq_len, depth), dtype=float16)
-    v_att = normal((batch_size, num_heads, seq_len, depth), dtype=float16)
-    # Rotary embeddings shape: (1, 1, seq_len, d_half)
-    sin_att = normal((1, 1, seq_len, d_half), dtype=float16)
-    cos_att = normal((1, 1, seq_len, d_half), dtype=float16)
-    attn_output = scaled_dot_product_attention(q_att, k_att, v_att, sin_att, cos_att)
-    print("Scaled Dot Product Attention output shape:", attn_output.shape)
-
-    # --- Test Grouped Pointwise Convolution ---
-    grouped_conv = GroupedPointwiseConv(d_model, groups)
-    conv_input = normal((batch_size, seq_len, d_model), dtype=float16)
-    conv_output = grouped_conv(conv_input)
-    print("GroupedPointwiseConv output shape:", conv_output.shape)
-
-    # --- Test MultiHeadAttention ---
-    mha = MultiHeadAttention(d_model, num_heads, groups)
-    # Full inputs have shape: (batch_size, seq_len, d_model)
-    q_input = normal((batch_size, seq_len, d_model), dtype=float16)
-    k_input = normal((batch_size, seq_len, d_model), dtype=float16)
-    v_input = normal((batch_size, seq_len, d_model), dtype=float16)
-    # Rotary embeddings for MHA: shape (1, 1, seq_len, d_half)
-    sin_mha = normal((1, 1, seq_len, d_half), dtype=float16)
-    cos_mha = normal((1, 1, seq_len, d_half), dtype=float16)
-    mha_output = mha(v_input, k_input, q_input, sin_mha, cos_mha)
-    print("MultiHeadAttention output shape:", mha_output.shape)
-
-if __name__ == "__main__":
-    main()
+    def call(self, x: tf.Tensor, training: bool = False) -> tf.Tensor:
+        batch_size = tf.shape(x)[0]
+        seq_len = tf.shape(x)[1]
+        # Compute Q, K, V using kernel-based projection.
+        q = self.query_proj(x, training=training)  # (batch, seq_len, attn_dim)
+        k = self.key_proj(x, training=training)
+        v = self.value_proj(x, training=training)
+        # Split heads.
+        q = self.split_heads(q, batch_size, seq_len)  # (batch, num_heads, seq_len, head_dim)
+        k = self.split_heads(k, batch_size, seq_len)
+        v = self.split_heads(v, batch_size, seq_len)
+        # Apply rotary positional encoding.
+        sin, cos = rotary_embedding(self.head_dim, seq_len)
+        q = apply_rotary_pos_emb(q, sin, cos)
+        k = apply_rotary_pos_emb(k, sin, cos)
+        # Apply Nyström approximation on keys.
+        k = self.nystrom(k)  # Now k: (batch, num_heads, seq_len, nystrom_landmarks)
+        # Apply FAVOR projection.
+        q_prime = self.favor_proj(q)  # (batch, num_heads, seq_len, num_random_features)
+        k_prime = self.favor_proj(k)  # (batch, num_heads, seq_len, num_random_features)
+        # Normalization factor.
+        k_prime_sum = tf.reduce_sum(k_prime, axis=2)  # (batch, num_heads, num_random_features)
+        denom = tf.einsum('bhse,bhe->bhs', q_prime, k_prime_sum)  # (batch, num_heads, seq_len)
+        denom = tf.expand_dims(denom, -1)  # (batch, num_heads, seq_len, 1)
+        # Numerator.
+        kv = tf.einsum('bhse,bhsd->bhed', k_prime, v)  # (batch, num_heads, num_random_features, head_dim)
+        numerator = tf.einsum('bhse,bhed->bhsd', q_prime, kv)  # (batch, num_heads, seq_len, head_dim)
+        output = numerator / (denom + 1e-6)
+        # Combine heads.
+        output = tf.transpose(output, perm=[0, 2, 1, 3])  # (batch, seq_len, num_heads, head_dim)
+        output = tf.reshape(output, (batch_size, seq_len, self.attn_dim))
+        output = self.out_dense(output)
+        return self.dropout(output, training=training)
