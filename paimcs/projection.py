@@ -1,4 +1,4 @@
-from tensorflow import Tensor
+from tensorflow import Tensor, float16
 from tensorflow.keras import layers
 from .conv import GroupedPointwiseConv1D
 from .multiscale import MultiScaleKernelFeatures
@@ -16,7 +16,7 @@ class ProjectionWithKernel(layers.Layer):
             gamma_list: List of gamma values.
             dropout_rate: Dropout rate.
         """
-        super().__init__(**kwargs)
+        super().__init__(dtype=float16, **kwargs)
         self.conv_proj = GroupedPointwiseConv1D(conv_channels, conv_channels, groups, dropout_rate)
         self.multi_scale = MultiScaleKernelFeatures(conv_channels, num_features_per_scale, gamma_list, dropout_rate)
         self.final_dense = layers.Dense(output_dim)

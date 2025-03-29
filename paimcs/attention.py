@@ -22,7 +22,7 @@ class MultiHeadFAVORAttention(layers.Layer):
             nystrom_landmarks: Number of landmarks for Nyström.
             dropout_rate: Dropout rate.
         """
-        super().__init__(**kwargs, dtype=float16)
+        super().__init__(dtype=float16, **kwargs)
         self.num_heads = num_heads
         self.attn_dim = attn_dim
         self.head_dim = attn_dim // num_heads

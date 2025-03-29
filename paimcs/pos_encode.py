@@ -9,7 +9,7 @@ class PositionalEncoding(layers.Layer):
             d_model (int): Embedding dimension.
             max_len (int): Maximum sequence length.
         """
-        super().__init__(**kwargs, dtype=float16)
+        super().__init__(dtype=float16, **kwargs)
         self.d_model: int = d_model
         pos_encoding: Tensor = self.get_positional_encoding(max_len, d_model)
         self.pos_encoding: Tensor = cast(pos_encoding, float16)

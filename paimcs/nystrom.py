@@ -9,7 +9,7 @@ class NystromFeatures(layers.Layer):
             num_landmarks (int): Number of landmark points.
             gamma (float): RBF kernel parameter.
         """
-        super().__init__(**kwargs, dtype=float16)
+        super().__init__(dtype=float16, **kwargs)
         self.num_landmarks = num_landmarks
         self.gamma = gamma
 
@@ -19,9 +19,10 @@ class NystromFeatures(layers.Layer):
             shape=(self.num_landmarks, self.input_dim),
             initializer="random_normal",
             trainable=True,
+            dtype = float16,
             name="landmarks"
         )
-        super().build(input_shape, dtype = float16)
+        super().build(input_shape)
 
     def call(self, inputs: Tensor) -> Tensor:
         # Compute squared L2 distances between inputs and landmarks

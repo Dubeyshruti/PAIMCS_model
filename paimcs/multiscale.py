@@ -13,7 +13,7 @@ class MultiScaleKernelFeatures(layers.Layer):
             gamma_list (List[float]): List of gamma values.
             dropout_rate (float): Dropout probability.
         """
-        super().__init__(**kwargs, dtype=float16)
+        super().__init__(dtype=float16, **kwargs)
         self.scales = [OrthogonalRandomFeaturesTF(input_dim, num_features_per_scale, gamma, dropout_rate)
                        for gamma in gamma_list]
 

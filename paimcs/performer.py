@@ -10,7 +10,7 @@ class KernelLMBlock(layers.Layer):
         """
         Transformer-style block using multi-head FAVOR+ attention and RMSNorm.
         """
-        super().__init__(**kwargs, float16)
+        super().__init__(dtype=float16, **kwargs)
         self.attn = MultiHeadFAVORAttention(
             num_heads, attn_dim, num_random_features,
             conv_channels, groups, num_features_per_scale, gamma_list,

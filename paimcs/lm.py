@@ -25,7 +25,7 @@ class paimcsLM(Model):
             num_layers: Number of transformer blocks.
             dropout_rate: Dropout rate.
         """
-        super().__init__(**kwargs, dtype=float16)
+        super().__init__(dtype=float16, **kwargs)
         self.token_repr = TokenRepresentation(vocab_size, embedding_dim, conv_output_channels, groups,
                                                 num_features_per_scale, gamma_list, dropout_rate)
         # Note: The final channel dimension after token_repr is conv_output_channels * len(gamma_list)

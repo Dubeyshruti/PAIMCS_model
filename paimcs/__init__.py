@@ -1,3 +1,3 @@
 __version__="1.0.0"
 __author__="Shruti Dubey"
-from .lm import KernelLM
+from .lm import paimcsLM

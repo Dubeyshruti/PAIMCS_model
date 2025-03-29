@@ -10,7 +10,7 @@ class FAVORProjection(layers.Layer):
             input_dim (int): Dimensionality of input vectors.
             num_features (int): Number of random features.
         """
-        super().__init__(**kwargs, dtype=float16)
+        super().__init__(dtype=float16, **kwargs)
         self.input_dim = input_dim
         self.num_features = num_features
 
@@ -18,18 +18,18 @@ class FAVORProjection(layers.Layer):
         self.W = self.add_weight(
             shape=(self.input_dim, self.num_features),
             initializer=random_normal_initializer(),
-            dtype = float16
+            dtype = float16,
             trainable=False,
             name="favor_W"
         )
         self.bias = self.add_weight(
             shape=(self.num_features,),
             initializer=random_uniform_initializer(0, 2 * pi),
-            dtype = float16
+            dtype = float16,
             trainable=False,
             name="favor_bias"
         )
-        super().build(input_shape, dtype = float16)
+        super().build(input_shape)
 
     def call(self, x: Tensor) -> Tensor:
         x_proj = tensordot(x, self.W, axes=1) + self.bias

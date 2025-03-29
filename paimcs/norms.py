@@ -8,7 +8,7 @@ class RMSNorm(layers.Layer):
         Args:
             epsilon (float): Small constant for numerical stability.
         """
-        super().__init__(**kwargs, dtype=float16)
+        super().__init__(dtype=float16, **kwargs)
         self.epsilon = epsilon
 
     def build(self, input_shape: TensorShape) -> None:

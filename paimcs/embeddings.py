@@ -17,7 +17,7 @@ class TokenRepresentation(layers.Layer):
             gamma_list: List of gamma values.
             dropout_rate: Dropout rate.
         """
-        super().__init__(**kwargs, dtype=float16)
+        super().__init__(dtype = float16, **kwargs)
         self.embedding = layers.Embedding(vocab_size, embedding_dim)
         self.grouped_conv = GroupedPointwiseConv1D(embedding_dim, conv_output_channels, groups, dropout_rate)
         self.multi_scale_kernel = MultiScaleKernelFeatures(conv_output_channels, num_features_per_scale, gamma_list, dropout_rate)

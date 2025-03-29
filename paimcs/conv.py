@@ -1,4 +1,4 @@
-from tensorflow import Tensor
+from tensorflow import Tensor, float16
 from tensorflow.keras import layers
 from tensorflow.nn import silu
 
@@ -13,7 +13,7 @@ class GroupedPointwiseConv1D(layers.Layer):
             groups (int): Number of groups.
             dropout_rate (float): Dropout probability.
         """
-        super().__init__(**kwargs)
+        super().__init__(dtype = float16, **kwargs)
         if input_channels % groups != 0 or output_channels % groups != 0:
             raise ValueError("Channels must be divisible by groups.")
         self.conv = layers.Conv1D(filters=output_channels, kernel_size=1, groups=groups)

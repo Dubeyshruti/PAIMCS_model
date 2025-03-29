@@ -12,7 +12,7 @@ class OrthogonalRandomFeaturesTF(tf.keras.layers.Layer):
             gamma (float): RBF kernel parameter.
             dropout_rate (float): Dropout probability.
         """
-        super().__init__(**kwargs, dtype=tf.float16)
+        super().__init__(dtype=tf.float16, **kwargs)
         self.input_dim = input_dim
         self.num_features = num_features
         self.gamma = gamma
@@ -23,15 +23,15 @@ class OrthogonalRandomFeaturesTF(tf.keras.layers.Layer):
         q, _ = tf.linalg.qr(W)
         self.W = self.add_weight(
             "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-            trainable=False
+            trainable=False, dtype=tf.float16
         )
         self.b = self.add_weight(
             "b", shape=(self.num_features,),
             initializer=tf.random_uniform_initializer(0, 2 * math.pi),
-            trainable=False
+            trainable=False, dtype = tf.float16
         )
         self.dropout = tf.keras.layers.Dropout(self.dropout_rate)
-        super().build(input_shape, dtype=tf.float16)
+        super().build(input_shape)
 
     def call(self, x: tf.Tensor, training: bool = False) -> tf.Tensor:
         projection = tf.tensordot(x, self.W, axes=1) + self.b
