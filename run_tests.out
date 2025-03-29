@@ -1,0 +1,508 @@
+2025-03-29 18:12:39.328476: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:477] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1743271959.372269   77306 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1743271959.384744   77306 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-03-29 18:12:39.425505: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+test_attention (unittest.loader._FailedTest.test_attention) ... ERROR
+test_dropout_inference (test_conv.TestGroupedPointwiseConv1D.test_dropout_inference) ... 2025-03-29 18:12:46.060657: E external/local_xla/xla/stream_executor/cuda/cuda_driver.cc:152] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
+ok
+test_dropout_training_variability (test_conv.TestGroupedPointwiseConv1D.test_dropout_training_variability) ... ok
+test_invalid_group_channels (test_conv.TestGroupedPointwiseConv1D.test_invalid_group_channels) ... ok
+test_output_shape (test_conv.TestGroupedPointwiseConv1D.test_output_shape) ... WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1743271966.506737   77306 service.cc:148] XLA service 0x8e927b0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+I0000 00:00:1743271966.506990   77306 service.cc:156]   StreamExecutor device (0): Host, Default Version
+I0000 00:00:1743271966.588834   77306 device_compiler.h:188] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+ok
+test_empty_token_sequence (test_edge_cases.TestEdgeCases.test_empty_token_sequence) ... ERROR
+test_invalid_group_configuration (test_edge_cases.TestEdgeCases.test_invalid_group_configuration) ... ok
+test_inference_determinism (test_embeddings.TestTokenRepresentation.test_inference_determinism) ... ERROR
+test_output_shape (test_embeddings.TestTokenRepresentation.test_output_shape) ... ERROR
+test_favor (unittest.loader._FailedTest.test_favor) ... ERROR
+test_integration (unittest.loader._FailedTest.test_integration) ... ERROR
+test_lm (unittest.loader._FailedTest.test_lm) ... ERROR
+test_deterministic_inference (test_multiscale.TestMultiScaleKernelFeatures.test_deterministic_inference) ... ERROR
+test_dropout_training_variability (test_multiscale.TestMultiScaleKernelFeatures.test_dropout_training_variability) ... ERROR
+test_output_shape (test_multiscale.TestMultiScaleKernelFeatures.test_output_shape) ... ERROR
+test_norms (unittest.loader._FailedTest.test_norms) ... ERROR
+test_nystrom (unittest.loader._FailedTest.test_nystrom) ... ERROR
+test_dropout_behavior (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_dropout_behavior) ... ERROR
+test_output_shape (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_output_shape) ... ERROR
+test_output_value_range (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_output_value_range) ... ERROR
+test_weight_and_bias_shapes (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_weight_and_bias_shapes) ... ERROR
+test_performance (unittest.loader._FailedTest.test_performance) ... ERROR
+test_performer (unittest.loader._FailedTest.test_performer) ... ERROR
+test_call_output_shape (test_pos_encode.TestPositionalEncoding.test_call_output_shape) ... ok
+test_call_output_values (test_pos_encode.TestPositionalEncoding.test_call_output_values) ... ok
+test_pos_encoding_shape_and_dtype (test_pos_encode.TestPositionalEncoding.test_pos_encoding_shape_and_dtype) ... ok
+test_projection (unittest.loader._FailedTest.test_projection) ... ERROR
+test_reproducibility (unittest.loader._FailedTest.test_reproducibility) ... ERROR
+test_rope (unittest.loader._FailedTest.test_rope) ... ERROR
+
+======================================================================
+ERROR: test_attention (unittest.loader._FailedTest.test_attention)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_attention
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/content/PAIMCS_model/test_paimcs/test_attention.py", line 4, in <module>
+    from paimcs.attention import MultiHeadFAVORAttention
+  File "/content/PAIMCS_model/paimcs/__init__.py", line 3, in <module>
+    from .lm import KernelLM
+  File "/content/PAIMCS_model/paimcs/lm.py", line 5, in <module>
+    from .performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/performer.py", line 13
+    super().__init__(**kwargs, float16)
+                                      ^
+SyntaxError: positional argument follows keyword argument unpacking
+
+
+======================================================================
+ERROR: test_empty_token_sequence (test_edge_cases.TestEdgeCases.test_empty_token_sequence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/content/PAIMCS_model/test_paimcs/test_edge_cases.py", line 21, in test_empty_token_sequence
+    output = layer(token_seq, training=False)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
+    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
+    features = [scale(x, training=training) for scale in self.scales]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
+    features = [scale(x, training=training) for scale in self.scales]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
+    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+
+[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+
+Arguments received by MultiScaleKernelFeatures.call():
+  • x=tf.Tensor(shape=(0, 10, 16), dtype=float16)
+  • training=False
+
+======================================================================
+ERROR: test_inference_determinism (test_embeddings.TestTokenRepresentation.test_inference_determinism)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/content/PAIMCS_model/test_paimcs/test_embeddings.py", line 44, in test_inference_determinism
+    output1 = self.layer(self.token_seq, training=False)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
+    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
+    features = [scale(x, training=training) for scale in self.scales]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
+    features = [scale(x, training=training) for scale in self.scales]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
+    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+
+[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+
+Arguments received by MultiScaleKernelFeatures.call():
+  • x=tf.Tensor(shape=(4, 10, 16), dtype=float16)
+  • training=False
+
+======================================================================
+ERROR: test_output_shape (test_embeddings.TestTokenRepresentation.test_output_shape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/content/PAIMCS_model/test_paimcs/test_embeddings.py", line 37, in test_output_shape
+    output = self.layer(self.token_seq, training=False)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
+    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
+    features = [scale(x, training=training) for scale in self.scales]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
+    features = [scale(x, training=training) for scale in self.scales]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
+    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+
+[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+
+Arguments received by MultiScaleKernelFeatures.call():
+  • x=tf.Tensor(shape=(4, 10, 16), dtype=float16)
+  • training=False
+
+======================================================================
+ERROR: test_favor (unittest.loader._FailedTest.test_favor)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_favor
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/content/PAIMCS_model/test_paimcs/test_favor.py", line 4, in <module>
+    from paimcs.favor import FAVORProjection
+  File "/content/PAIMCS_model/paimcs/__init__.py", line 3, in <module>
+    from .lm import KernelLM
+  File "/content/PAIMCS_model/paimcs/lm.py", line 5, in <module>
+    from .performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/performer.py", line 13
+    super().__init__(**kwargs, float16)
+                                      ^
+SyntaxError: positional argument follows keyword argument unpacking
+
+
+======================================================================
+ERROR: test_integration (unittest.loader._FailedTest.test_integration)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_integration
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/content/PAIMCS_model/test_paimcs/test_integration.py", line 4, in <module>
+    from paimcs.lm import paimcsLM
+  File "/content/PAIMCS_model/paimcs/__init__.py", line 3, in <module>
+    from .lm import KernelLM
+  File "/content/PAIMCS_model/paimcs/lm.py", line 5, in <module>
+    from .performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/performer.py", line 13
+    super().__init__(**kwargs, float16)
+                                      ^
+SyntaxError: positional argument follows keyword argument unpacking
+
+
+======================================================================
+ERROR: test_lm (unittest.loader._FailedTest.test_lm)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_lm
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/content/PAIMCS_model/test_paimcs/test_lm.py", line 4, in <module>
+    from paimcs.lm import paimcsLM
+  File "/content/PAIMCS_model/paimcs/__init__.py", line 3, in <module>
+    from .lm import KernelLM
+  File "/content/PAIMCS_model/paimcs/lm.py", line 5, in <module>
+    from .performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/performer.py", line 13
+    super().__init__(**kwargs, float16)
+                                      ^
+SyntaxError: positional argument follows keyword argument unpacking
+
+
+======================================================================
+ERROR: test_deterministic_inference (test_multiscale.TestMultiScaleKernelFeatures.test_deterministic_inference)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/content/PAIMCS_model/test_paimcs/test_multiscale.py", line 34, in test_deterministic_inference
+    output1 = self.layer(self.input_tensor, training=False)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
+    features = [scale(x, training=training) for scale in self.scales]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
+    features = [scale(x, training=training) for scale in self.scales]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
+    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+
+[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+
+Arguments received by MultiScaleKernelFeatures.call():
+  • x=tf.Tensor(shape=(4, 8), dtype=float16)
+  • training=False
+
+======================================================================
+ERROR: test_dropout_training_variability (test_multiscale.TestMultiScaleKernelFeatures.test_dropout_training_variability)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/content/PAIMCS_model/test_paimcs/test_multiscale.py", line 46, in test_dropout_training_variability
+    output_train1 = dropout_layer(self.input_tensor, training=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
+    features = [scale(x, training=training) for scale in self.scales]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
+    features = [scale(x, training=training) for scale in self.scales]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
+    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+
+[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+
+Arguments received by MultiScaleKernelFeatures.call():
+  • x=tf.Tensor(shape=(4, 8), dtype=float16)
+  • training=True
+
+======================================================================
+ERROR: test_output_shape (test_multiscale.TestMultiScaleKernelFeatures.test_output_shape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/content/PAIMCS_model/test_paimcs/test_multiscale.py", line 28, in test_output_shape
+    output = self.layer(self.input_tensor, training=False)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
+    features = [scale(x, training=training) for scale in self.scales]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
+    features = [scale(x, training=training) for scale in self.scales]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
+    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+
+[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+
+Arguments received by MultiScaleKernelFeatures.call():
+  • x=tf.Tensor(shape=(4, 8), dtype=float16)
+  • training=False
+
+======================================================================
+ERROR: test_norms (unittest.loader._FailedTest.test_norms)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_norms
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/content/PAIMCS_model/test_paimcs/test_norms.py", line 4, in <module>
+    from paimcs.norms import RMSNorm
+  File "/content/PAIMCS_model/paimcs/__init__.py", line 3, in <module>
+    from .lm import KernelLM
+  File "/content/PAIMCS_model/paimcs/lm.py", line 5, in <module>
+    from .performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/performer.py", line 13
+    super().__init__(**kwargs, float16)
+                                      ^
+SyntaxError: positional argument follows keyword argument unpacking
+
+
+======================================================================
+ERROR: test_nystrom (unittest.loader._FailedTest.test_nystrom)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_nystrom
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/content/PAIMCS_model/test_paimcs/test_nystrom.py", line 4, in <module>
+    from paimcs.nystrom import NystromFeatures
+  File "/content/PAIMCS_model/paimcs/__init__.py", line 3, in <module>
+    from .lm import KernelLM
+  File "/content/PAIMCS_model/paimcs/lm.py", line 5, in <module>
+    from .performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/performer.py", line 13
+    super().__init__(**kwargs, float16)
+                                      ^
+SyntaxError: positional argument follows keyword argument unpacking
+
+
+======================================================================
+ERROR: test_dropout_behavior (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_dropout_behavior)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/content/PAIMCS_model/test_paimcs/test_orthogonal.py", line 63, in test_dropout_behavior
+    _ = layer_dropout(self.input_tensor, training=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
+    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Invalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.
+
+======================================================================
+ERROR: test_output_shape (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_output_shape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/content/PAIMCS_model/test_paimcs/test_orthogonal.py", line 36, in test_output_shape
+    output = self.layer(self.input_tensor, training=False)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
+    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Invalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.
+
+======================================================================
+ERROR: test_output_value_range (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_output_value_range)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/content/PAIMCS_model/test_paimcs/test_orthogonal.py", line 45, in test_output_value_range
+    output = self.layer(self.input_tensor, training=False)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
+    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Invalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.
+
+======================================================================
+ERROR: test_weight_and_bias_shapes (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_weight_and_bias_shapes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/content/PAIMCS_model/test_paimcs/test_orthogonal.py", line 28, in test_weight_and_bias_shapes
+    _ = self.layer(self.input_tensor, training=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
+    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Invalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.
+
+======================================================================
+ERROR: test_performance (unittest.loader._FailedTest.test_performance)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_performance
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/content/PAIMCS_model/test_paimcs/test_performance.py", line 4, in <module>
+    from paimcs.lm import paimcsLM
+  File "/content/PAIMCS_model/paimcs/__init__.py", line 3, in <module>
+    from .lm import KernelLM
+  File "/content/PAIMCS_model/paimcs/lm.py", line 5, in <module>
+    from .performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/performer.py", line 13
+    super().__init__(**kwargs, float16)
+                                      ^
+SyntaxError: positional argument follows keyword argument unpacking
+
+
+======================================================================
+ERROR: test_performer (unittest.loader._FailedTest.test_performer)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_performer
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/content/PAIMCS_model/test_paimcs/test_performer.py", line 4, in <module>
+    from paimcs.performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/__init__.py", line 3, in <module>
+    from .lm import KernelLM
+  File "/content/PAIMCS_model/paimcs/lm.py", line 5, in <module>
+    from .performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/performer.py", line 13
+    super().__init__(**kwargs, float16)
+                                      ^
+SyntaxError: positional argument follows keyword argument unpacking
+
+
+======================================================================
+ERROR: test_projection (unittest.loader._FailedTest.test_projection)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_projection
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/content/PAIMCS_model/test_paimcs/test_projection.py", line 4, in <module>
+    from paimcs.projection import ProjectionWithKernel
+  File "/content/PAIMCS_model/paimcs/__init__.py", line 3, in <module>
+    from .lm import KernelLM
+  File "/content/PAIMCS_model/paimcs/lm.py", line 5, in <module>
+    from .performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/performer.py", line 13
+    super().__init__(**kwargs, float16)
+                                      ^
+SyntaxError: positional argument follows keyword argument unpacking
+
+
+======================================================================
+ERROR: test_reproducibility (unittest.loader._FailedTest.test_reproducibility)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_reproducibility
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/content/PAIMCS_model/test_paimcs/test_reproducibility.py", line 4, in <module>
+    from paimcs.lm import paimcsLM
+  File "/content/PAIMCS_model/paimcs/__init__.py", line 3, in <module>
+    from .lm import KernelLM
+  File "/content/PAIMCS_model/paimcs/lm.py", line 5, in <module>
+    from .performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/performer.py", line 13
+    super().__init__(**kwargs, float16)
+                                      ^
+SyntaxError: positional argument follows keyword argument unpacking
+
+
+======================================================================
+ERROR: test_rope (unittest.loader._FailedTest.test_rope)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_rope
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/unittest/loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/unittest/loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "/content/PAIMCS_model/test_paimcs/test_rope.py", line 4, in <module>
+    from paimcs.rope import rotary_embedding, apply_rotary_pos_emb
+  File "/content/PAIMCS_model/paimcs/__init__.py", line 3, in <module>
+    from .lm import KernelLM
+  File "/content/PAIMCS_model/paimcs/lm.py", line 5, in <module>
+    from .performer import KernelLMBlock
+  File "/content/PAIMCS_model/paimcs/performer.py", line 13
+    super().__init__(**kwargs, float16)
+                                      ^
+SyntaxError: positional argument follows keyword argument unpacking
+
+
+----------------------------------------------------------------------
+Ran 29 tests in 1.140s
+
+FAILED (errors=21)
