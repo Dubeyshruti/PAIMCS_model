@@ -21,14 +21,21 @@ class OrthogonalRandomFeaturesTF(tf.keras.layers.Layer):
     def build(self, input_shape: tf.TensorShape) -> None:
         W = tf.random.normal((self.input_dim, self.num_features))
         q, _ = tf.linalg.qr(W)
+        scale = math.sqrt(2 * self.gamma)
+        q_scaled = (q * scale).numpy()
         self.W = self.add_weight(
-            "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-            trainable=False, dtype=tf.float16
+            name="W", 
+            shape = q.shape,
+            initializer=tf.constant_initializer(q_scaled),
+            trainable=False,
+            dtype=tf.float16
         )
         self.b = self.add_weight(
-            "b", shape=(self.num_features,),
+            name="b",
+            shape=(self.num_features,),
             initializer=tf.random_uniform_initializer(0, 2 * math.pi),
-            trainable=False, dtype = tf.float16
+            trainable=False,
+            dtype = tf.float16
         )
         self.dropout = tf.keras.layers.Dropout(self.dropout_rate)
         super().build(input_shape)

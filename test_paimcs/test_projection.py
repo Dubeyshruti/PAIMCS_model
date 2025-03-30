@@ -35,7 +35,7 @@ class TestProjectionWithKernel(unittest.TestCase):
         # Run the layer in inference mode.
         output = self.layer(self.input_tensor, training=False)
         # Expected output shape is (batch_size, output_dim).
-        self.assertEqual(output.shape, (self.batch_size, self.output_dim))
+        self.assertEqual(output.shape, (self.batch_size, self.sequence_length, self.output_dim))
 
     def test_inference_determinism(self):
         # With dropout disabled, outputs should be the same across calls in inference mode.

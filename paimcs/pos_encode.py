@@ -2,7 +2,7 @@ from tensorflow import float16, cast, Tensor, range as Range, newaxis, pow as Po
 from tensorflow.keras import layers
 
 class PositionalEncoding(layers.Layer):
-    def __init__(self, d_model: int, max_len: int = 5000, **kwargs) -> None:
+    def __init__(self, hidden_dim: int, max_len: int = 5000, **kwargs) -> None:
         """
         Computes sinusoidal positional encodings.
         Args:
@@ -10,14 +10,14 @@ class PositionalEncoding(layers.Layer):
             max_len (int): Maximum sequence length.
         """
         super().__init__(dtype=float16, **kwargs)
-        self.d_model: int = d_model
-        pos_encoding: Tensor = self.get_positional_encoding(max_len, d_model)
+        self.hidden_dim: int = hidden_dim
+        pos_encoding: Tensor = self.get_positional_encoding(max_len, hidden_dim)
         self.pos_encoding: Tensor = cast(pos_encoding, float16)
 
-    def get_positional_encoding(self, max_len: int, d_model: int) -> Tensor:
+    def get_positional_encoding(self, max_len: int, hidden_dim: int) -> Tensor:
         pos = Range(max_len, dtype=float16)[:, newaxis]  # (max_len, 1)
-        i = Range(d_model, dtype=float16)[newaxis, :]     # (1, d_model)
-        angle_rates = 1 / Pow(10000, (2 * (i // 2)) / cast(d_model, float16))
+        i = Range(hidden_dim, dtype=float16)[newaxis, :]     # (1, d_model)
+        angle_rates = 1 / Pow(10000, (2 * (i // 2)) / cast(hidden_dim, float16))
         angle_rads = pos * angle_rates  # (max_len, d_model)
         sines = sin(angle_rads[:, 0::2])
         cosines = cos(angle_rads[:, 1::2])

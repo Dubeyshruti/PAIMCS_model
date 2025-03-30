@@ -1,6 +1,6 @@
 from typing import Tuple
 import math
-from tensorflow import Tensor, range as Range, float16, einsum, sin, cos, newaxis, shape, split, reshape, concat
+from tensorflow import Tensor, range as Range, float16, einsum, sin, cos, newaxis, shape, split, reshape, concat, cast
 
 def rotary_embedding(head_dim: int, seq_len: int, base: int = 12315) -> Tuple[Tensor, Tensor]:
     """
@@ -33,6 +33,8 @@ def apply_rotary_pos_emb(x: Tensor, sin: Tensor, cos: Tensor) -> Tensor:
     """
     d_half = shape(x)[-1] // 2
     x1, x2 = split(x, num_or_size_splits=2, axis=-1)
+    sin = cast(sin, x.dtype)
+    cos = cast(cos, x.dtype)
     sin = reshape(sin, (1, 1, shape(sin)[1], d_half))
     cos = reshape(cos, (1, 1, shape(cos)[1], d_half))
     return concat([x1 * cos - x2 * sin, x1 * sin + x2 * cos], axis=-1)

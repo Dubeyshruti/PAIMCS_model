@@ -33,7 +33,7 @@ class TestKernelLMBlock(unittest.TestCase):
         self.batch_size = 2
         self.seq_len = 10
         self.input_tensor = tf.random.uniform(
-            (self.batch_size, self.seq_len, self.attn_dim), dtype=tf.float32
+            (self.batch_size, self.seq_len, self.attn_dim), dtype=tf.float16
         )
     
     def test_output_shape(self):

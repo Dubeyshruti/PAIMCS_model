@@ -1,28 +1,31 @@
-2025-03-29 18:48:33.853643: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:477] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2025-03-30 11:12:47.102802: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:477] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-E0000 00:00:1743274113.896125   90176 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
-E0000 00:00:1743274113.908309   90176 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
-2025-03-29 18:48:33.952364: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+E0000 00:00:1743333167.157574   76203 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1743333167.171842   76203 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-03-30 11:12:47.217054: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-test_dropout_variability (test_attention.TestMultiHeadFAVORAttention.test_dropout_variability) ... 2025-03-29 18:48:39.627306: E external/local_xla/xla/stream_executor/cuda/cuda_driver.cc:152] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
+test_dropout_variability (test_attention.TestMultiHeadFAVORAttention.test_dropout_variability) ... 2025-03-30 11:12:52.964547: E external/local_xla/xla/stream_executor/cuda/cuda_driver.cc:152] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-I0000 00:00:1743274119.989083   90176 service.cc:148] XLA service 0x9f7e260 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
-I0000 00:00:1743274119.989191   90176 service.cc:156]   StreamExecutor device (0): Host, Default Version
-I0000 00:00:1743274120.000397   90176 device_compiler.h:188] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+I0000 00:00:1743333173.370020   76203 service.cc:148] XLA service 0x9b69fc0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+I0000 00:00:1743333173.370130   76203 service.cc:156]   StreamExecutor device (0): Host, Default Version
+I0000 00:00:1743333173.387143   76203 device_compiler.h:188] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2025-03-30 11:12:53.950502: I tensorflow/core/framework/local_rendezvous.cc:405] Local rendezvous is aborting with status: INVALID_ARGUMENT: Matrix size-incompatible: In[0]: [80,8], In[1]: [4,8]
 ERROR
-test_inference_determinism (test_attention.TestMultiHeadFAVORAttention.test_inference_determinism) ... ERROR
+test_inference_determinism (test_attention.TestMultiHeadFAVORAttention.test_inference_determinism) ... WARNING:tensorflow:5 out of the last 5 calls to <function conv.<locals>._conv_xla at 0x7ea8101b1a80> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+WARNING:tensorflow:6 out of the last 6 calls to <function conv.<locals>._conv_xla at 0x7ea8101b3920> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2025-03-30 11:12:54.548224: I tensorflow/core/framework/local_rendezvous.cc:405] Local rendezvous is aborting with status: INVALID_ARGUMENT: Matrix size-incompatible: In[0]: [80,8], In[1]: [4,8]
+ERROR
 test_no_nan_values (test_attention.TestMultiHeadFAVORAttention.test_no_nan_values) ... ERROR
-test_output_shape (test_attention.TestMultiHeadFAVORAttention.test_output_shape) ... ERROR
+test_output_shape (test_attention.TestMultiHeadFAVORAttention.test_output_shape) ... 2025-03-30 11:12:55.691900: I tensorflow/core/framework/local_rendezvous.cc:405] Local rendezvous is aborting with status: INVALID_ARGUMENT: Matrix size-incompatible: In[0]: [80,8], In[1]: [4,8]
+ERROR
 test_dropout_inference (test_conv.TestGroupedPointwiseConv1D.test_dropout_inference) ... ok
 test_dropout_training_variability (test_conv.TestGroupedPointwiseConv1D.test_dropout_training_variability) ... ok
 test_invalid_group_channels (test_conv.TestGroupedPointwiseConv1D.test_invalid_group_channels) ... ok
-test_output_shape (test_conv.TestGroupedPointwiseConv1D.test_output_shape) ... WARNING:tensorflow:5 out of the last 5 calls to <function conv.<locals>._conv_xla at 0x12ef7f082ca0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
-ok
-test_empty_token_sequence (test_edge_cases.TestEdgeCases.test_empty_token_sequence) ... WARNING:tensorflow:6 out of the last 6 calls to <function conv.<locals>._conv_xla at 0x12ef7eedbc40> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
-ERROR
+test_output_shape (test_conv.TestGroupedPointwiseConv1D.test_output_shape) ... ok
+test_empty_token_sequence (test_edge_cases.TestEdgeCases.test_empty_token_sequence) ... ok
 test_invalid_group_configuration (test_edge_cases.TestEdgeCases.test_invalid_group_configuration) ... ok
-test_inference_determinism (test_embeddings.TestTokenRepresentation.test_inference_determinism) ... ERROR
-test_output_shape (test_embeddings.TestTokenRepresentation.test_output_shape) ... ERROR
+test_inference_determinism (test_embeddings.TestTokenRepresentation.test_inference_determinism) ... ok
+test_output_shape (test_embeddings.TestTokenRepresentation.test_output_shape) ... ok
 test_call_output_shape (test_favor.TestFAVORProjection.test_call_output_shape) ... ok
 test_call_output_values (test_favor.TestFAVORProjection.test_call_output_values) ... ok
 test_weight_shapes (test_favor.TestFAVORProjection.test_weight_shapes) ... ok
@@ -30,7 +33,8 @@ test_forward_pass (test_integration.TestIntegration.test_forward_pass) ... ERROR
 test_inference_determinism (test_lm.TestPaimcsLM.test_inference_determinism) ... ERROR
 test_output_shape (test_lm.TestPaimcsLM.test_output_shape) ... ERROR
 test_training_dropout_variability (test_lm.TestPaimcsLM.test_training_dropout_variability) ... ERROR
-test_deterministic_inference (test_multiscale.TestMultiScaleKernelFeatures.test_deterministic_inference) ... ERROR
+test_deterministic_inference (test_multiscale.TestMultiScaleKernelFeatures.test_deterministic_inference) ... 2025-03-30 11:13:02.155551: I tensorflow/core/framework/local_rendezvous.cc:405] Local rendezvous is aborting with status: INVALID_ARGUMENT: Incompatible shapes: [4,8] vs. [16]
+ERROR
 test_dropout_training_variability (test_multiscale.TestMultiScaleKernelFeatures.test_dropout_training_variability) ... ERROR
 test_output_shape (test_multiscale.TestMultiScaleKernelFeatures.test_output_shape) ... ERROR
 test_build_and_call (test_norms.TestRMSNorm.test_build_and_call) ... ERROR
@@ -43,15 +47,16 @@ test_output_shape (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_output_sh
 test_output_value_range (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_output_value_range) ... ERROR
 test_weight_and_bias_shapes (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_weight_and_bias_shapes) ... ERROR
 test_forward_pass_time (test_performance.TestPerformance.test_forward_pass_time) ... ERROR
-test_dropout_variability (test_performer.TestKernelLMBlock.test_dropout_variability) ... ERROR
+test_dropout_variability (test_performer.TestKernelLMBlock.test_dropout_variability) ... 2025-03-30 11:13:04.815331: I tensorflow/core/framework/local_rendezvous.cc:405] Local rendezvous is aborting with status: INVALID_ARGUMENT: Matrix size-incompatible: In[0]: [80,8], In[1]: [4,8]
+ERROR
 test_inference_determinism (test_performer.TestKernelLMBlock.test_inference_determinism) ... ERROR
 test_output_shape (test_performer.TestKernelLMBlock.test_output_shape) ... ERROR
 test_call_output_shape (test_pos_encode.TestPositionalEncoding.test_call_output_shape) ... ok
 test_call_output_values (test_pos_encode.TestPositionalEncoding.test_call_output_values) ... ok
 test_pos_encoding_shape_and_dtype (test_pos_encode.TestPositionalEncoding.test_pos_encoding_shape_and_dtype) ... ok
-test_dropout_effect_in_training (test_projection.TestProjectionWithKernel.test_dropout_effect_in_training) ... ERROR
-test_inference_determinism (test_projection.TestProjectionWithKernel.test_inference_determinism) ... ERROR
-test_output_shape (test_projection.TestProjectionWithKernel.test_output_shape) ... ERROR
+test_dropout_effect_in_training (test_projection.TestProjectionWithKernel.test_dropout_effect_in_training) ... ok
+test_inference_determinism (test_projection.TestProjectionWithKernel.test_inference_determinism) ... ok
+test_output_shape (test_projection.TestProjectionWithKernel.test_output_shape) ... ok
 test_reproducible_output (test_reproducibility.TestReproducibility.test_reproducible_output) ... ERROR
 test_identity_when_sin_zero_and_cos_one (test_rope.TestApplyRotaryPosEmb.test_identity_when_sin_zero_and_cos_one) ... ok
 test_output_shape (test_rope.TestApplyRotaryPosEmb.test_output_shape) ... ok
@@ -67,28 +72,18 @@ Traceback (most recent call last):
                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/attention.py", line 48, in call
-    q = self.query_proj(x, training=training)  # (batch, seq_len, attn_dim)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/projection.py", line 26, in call
-    x = self.multi_scale(x, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [80,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 10, 16), dtype=float16)
-  • training=True
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(2, 4, 10, 8), dtype=float16)
 
 ======================================================================
 ERROR: test_inference_determinism (test_attention.TestMultiHeadFAVORAttention.test_inference_determinism)
@@ -99,28 +94,18 @@ Traceback (most recent call last):
               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/attention.py", line 48, in call
-    q = self.query_proj(x, training=training)  # (batch, seq_len, attn_dim)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/projection.py", line 26, in call
-    x = self.multi_scale(x, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [80,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 10, 16), dtype=float16)
-  • training=False
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(2, 4, 10, 8), dtype=float16)
 
 ======================================================================
 ERROR: test_no_nan_values (test_attention.TestMultiHeadFAVORAttention.test_no_nan_values)
@@ -131,28 +116,18 @@ Traceback (most recent call last):
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/attention.py", line 48, in call
-    q = self.query_proj(x, training=training)  # (batch, seq_len, attn_dim)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/projection.py", line 26, in call
-    x = self.multi_scale(x, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [80,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 10, 16), dtype=float16)
-  • training=False
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(2, 4, 10, 8), dtype=float16)
 
 ======================================================================
 ERROR: test_output_shape (test_attention.TestMultiHeadFAVORAttention.test_output_shape)
@@ -163,115 +138,18 @@ Traceback (most recent call last):
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/attention.py", line 48, in call
-    q = self.query_proj(x, training=training)  # (batch, seq_len, attn_dim)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/projection.py", line 26, in call
-    x = self.multi_scale(x, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [80,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 10, 16), dtype=float16)
-  • training=False
-
-======================================================================
-ERROR: test_empty_token_sequence (test_edge_cases.TestEdgeCases.test_empty_token_sequence)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/content/PAIMCS_model/test_paimcs/test_edge_cases.py", line 21, in test_empty_token_sequence
-    output = layer(token_seq, training=False)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
-    raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
-    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
-
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
-
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(0, 10, 16), dtype=float16)
-  • training=False
-
-======================================================================
-ERROR: test_inference_determinism (test_embeddings.TestTokenRepresentation.test_inference_determinism)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/content/PAIMCS_model/test_paimcs/test_embeddings.py", line 44, in test_inference_determinism
-    output1 = self.layer(self.token_seq, training=False)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
-    raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
-    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
-
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
-
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(4, 10, 16), dtype=float16)
-  • training=False
-
-======================================================================
-ERROR: test_output_shape (test_embeddings.TestTokenRepresentation.test_output_shape)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/content/PAIMCS_model/test_paimcs/test_embeddings.py", line 37, in test_output_shape
-    output = self.layer(self.token_seq, training=False)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
-    raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
-    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
-
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
-
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(4, 10, 16), dtype=float16)
-  • training=False
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(2, 4, 10, 8), dtype=float16)
 
 ======================================================================
 ERROR: test_forward_pass (test_integration.TestIntegration.test_forward_pass)
@@ -282,27 +160,21 @@ Traceback (most recent call last):
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/lm.py", line 43, in call
-    x = self.token_repr(token_seq, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
-    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/lm.py", line 48, in call
+    x = block(x, training=training)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/performer.py", line 28, in call
+    attn_out = self.attn(x, training=training)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/attention.py", line 69, in call
+    kv = einsum('bhse,bhsd->bhed', k_prime, v)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling MultiHeadFAVORAttention.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1mcannot compute Einsum as input #1(zero-based) was expected to be a half tensor but is a float tensor [Op:Einsum] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 15, 8), dtype=float16)
+Arguments received by MultiHeadFAVORAttention.call():
+  • x=tf.Tensor(shape=(2, 15, 16), dtype=float16)
   • training=False
 
 ======================================================================
@@ -314,28 +186,24 @@ Traceback (most recent call last):
               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/lm.py", line 43, in call
-    x = self.token_repr(token_seq, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
-    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/lm.py", line 48, in call
+    x = block(x, training=training)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/performer.py", line 28, in call
+    attn_out = self.attn(x, training=training)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [320,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(4, 20, 16), dtype=float16)
-  • training=False
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(4, 4, 20, 8), dtype=float16)
 
 ======================================================================
 ERROR: test_output_shape (test_lm.TestPaimcsLM.test_output_shape)
@@ -346,28 +214,24 @@ Traceback (most recent call last):
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/lm.py", line 43, in call
-    x = self.token_repr(token_seq, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
-    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/lm.py", line 48, in call
+    x = block(x, training=training)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/performer.py", line 28, in call
+    attn_out = self.attn(x, training=training)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [320,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(4, 20, 16), dtype=float16)
-  • training=False
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(4, 4, 20, 8), dtype=float16)
 
 ======================================================================
 ERROR: test_training_dropout_variability (test_lm.TestPaimcsLM.test_training_dropout_variability)
@@ -378,28 +242,24 @@ Traceback (most recent call last):
                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/lm.py", line 43, in call
-    x = self.token_repr(token_seq, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
-    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/lm.py", line 48, in call
+    x = block(x, training=training)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/performer.py", line 28, in call
+    attn_out = self.attn(x, training=training)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [320,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(4, 20, 16), dtype=float16)
-  • training=True
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(4, 4, 20, 8), dtype=float16)
 
 ======================================================================
 ERROR: test_deterministic_inference (test_multiscale.TestMultiScaleKernelFeatures.test_deterministic_inference)
@@ -416,14 +276,14 @@ Traceback (most recent call last):
   File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
     features = [scale(x, training=training) for scale in self.scales]
                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 44, in call
+    projection = tf.tensordot(x, self.W, axes=1) + self.b
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling OrthogonalRandomFeaturesTF.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__AddV2_device_/job:localhost/replica:0/task:0/device:CPU:0}} Incompatible shapes: [4,8] vs. [16] [Op:AddV2] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
+Arguments received by OrthogonalRandomFeaturesTF.call():
   • x=tf.Tensor(shape=(4, 8), dtype=float16)
   • training=False
 
@@ -442,14 +302,14 @@ Traceback (most recent call last):
   File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
     features = [scale(x, training=training) for scale in self.scales]
                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 44, in call
+    projection = tf.tensordot(x, self.W, axes=1) + self.b
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling OrthogonalRandomFeaturesTF.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__AddV2_device_/job:localhost/replica:0/task:0/device:CPU:0}} Incompatible shapes: [4,8] vs. [16] [Op:AddV2] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
+Arguments received by OrthogonalRandomFeaturesTF.call():
   • x=tf.Tensor(shape=(4, 8), dtype=float16)
   • training=True
 
@@ -468,14 +328,14 @@ Traceback (most recent call last):
   File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
     features = [scale(x, training=training) for scale in self.scales]
                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 44, in call
+    projection = tf.tensordot(x, self.W, axes=1) + self.b
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling OrthogonalRandomFeaturesTF.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__AddV2_device_/job:localhost/replica:0/task:0/device:CPU:0}} Incompatible shapes: [4,8] vs. [16] [Op:AddV2] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
+Arguments received by OrthogonalRandomFeaturesTF.call():
   • x=tf.Tensor(shape=(4, 8), dtype=float16)
   • training=False
 
@@ -502,10 +362,16 @@ Traceback (most recent call last):
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Invalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 44, in call
+    projection = tf.tensordot(x, self.W, axes=1) + self.b
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling OrthogonalRandomFeaturesTF.call().
+
+[1m{{function_node __wrapped__AddV2_device_/job:localhost/replica:0/task:0/device:CPU:0}} Incompatible shapes: [4,8] vs. [16] [Op:AddV2] name: [0m
+
+Arguments received by OrthogonalRandomFeaturesTF.call():
+  • x=tf.Tensor(shape=(4, 8), dtype=float16)
+  • training=False
 
 ======================================================================
 ERROR: test_output_shape (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_output_shape)
@@ -516,10 +382,16 @@ Traceback (most recent call last):
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Invalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 44, in call
+    projection = tf.tensordot(x, self.W, axes=1) + self.b
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling OrthogonalRandomFeaturesTF.call().
+
+[1m{{function_node __wrapped__AddV2_device_/job:localhost/replica:0/task:0/device:CPU:0}} Incompatible shapes: [4,8] vs. [16] [Op:AddV2] name: [0m
+
+Arguments received by OrthogonalRandomFeaturesTF.call():
+  • x=tf.Tensor(shape=(4, 8), dtype=float16)
+  • training=False
 
 ======================================================================
 ERROR: test_output_value_range (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_output_value_range)
@@ -530,10 +402,16 @@ Traceback (most recent call last):
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Invalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 44, in call
+    projection = tf.tensordot(x, self.W, axes=1) + self.b
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling OrthogonalRandomFeaturesTF.call().
+
+[1m{{function_node __wrapped__AddV2_device_/job:localhost/replica:0/task:0/device:CPU:0}} Incompatible shapes: [4,8] vs. [16] [Op:AddV2] name: [0m
+
+Arguments received by OrthogonalRandomFeaturesTF.call():
+  • x=tf.Tensor(shape=(4, 8), dtype=float16)
+  • training=False
 
 ======================================================================
 ERROR: test_weight_and_bias_shapes (test_orthogonal.TestOrthogonalRandomFeaturesTF.test_weight_and_bias_shapes)
@@ -544,10 +422,16 @@ Traceback (most recent call last):
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Invalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.
+  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 44, in call
+    projection = tf.tensordot(x, self.W, axes=1) + self.b
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling OrthogonalRandomFeaturesTF.call().
+
+[1m{{function_node __wrapped__AddV2_device_/job:localhost/replica:0/task:0/device:CPU:0}} Incompatible shapes: [4,8] vs. [16] [Op:AddV2] name: [0m
+
+Arguments received by OrthogonalRandomFeaturesTF.call():
+  • x=tf.Tensor(shape=(4, 8), dtype=float16)
+  • training=False
 
 ======================================================================
 ERROR: test_forward_pass_time (test_performance.TestPerformance.test_forward_pass_time)
@@ -558,28 +442,24 @@ Traceback (most recent call last):
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/lm.py", line 43, in call
-    x = self.token_repr(token_seq, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
-    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/lm.py", line 48, in call
+    x = block(x, training=training)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/performer.py", line 28, in call
+    attn_out = self.attn(x, training=training)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [320,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(4, 20, 16), dtype=float16)
-  • training=False
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(4, 4, 20, 8), dtype=float16)
 
 ======================================================================
 ERROR: test_dropout_variability (test_performer.TestKernelLMBlock.test_dropout_variability)
@@ -593,28 +473,18 @@ Traceback (most recent call last):
   File "/content/PAIMCS_model/paimcs/performer.py", line 28, in call
     attn_out = self.attn(x, training=training)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/attention.py", line 48, in call
-    q = self.query_proj(x, training=training)  # (batch, seq_len, attn_dim)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/projection.py", line 26, in call
-    x = self.multi_scale(x, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [80,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 10, 16), dtype=float16)
-  • training=True
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(2, 4, 10, 8), dtype=float16)
 
 ======================================================================
 ERROR: test_inference_determinism (test_performer.TestKernelLMBlock.test_inference_determinism)
@@ -628,28 +498,18 @@ Traceback (most recent call last):
   File "/content/PAIMCS_model/paimcs/performer.py", line 28, in call
     attn_out = self.attn(x, training=training)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/attention.py", line 48, in call
-    q = self.query_proj(x, training=training)  # (batch, seq_len, attn_dim)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/projection.py", line 26, in call
-    x = self.multi_scale(x, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [80,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 10, 16), dtype=float16)
-  • training=False
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(2, 4, 10, 8), dtype=float16)
 
 ======================================================================
 ERROR: test_output_shape (test_performer.TestKernelLMBlock.test_output_shape)
@@ -663,115 +523,18 @@ Traceback (most recent call last):
   File "/content/PAIMCS_model/paimcs/performer.py", line 28, in call
     attn_out = self.attn(x, training=training)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/attention.py", line 48, in call
-    q = self.query_proj(x, training=training)  # (batch, seq_len, attn_dim)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/projection.py", line 26, in call
-    x = self.multi_scale(x, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [80,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 10, 16), dtype=float16)
-  • training=False
-
-======================================================================
-ERROR: test_dropout_effect_in_training (test_projection.TestProjectionWithKernel.test_dropout_effect_in_training)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/content/PAIMCS_model/test_paimcs/test_projection.py", line 56, in test_dropout_effect_in_training
-    out_train1 = layer_dropout(self.input_tensor, training=True)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
-    raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/projection.py", line 26, in call
-    x = self.multi_scale(x, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
-
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
-
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 5, 8), dtype=float16)
-  • training=True
-
-======================================================================
-ERROR: test_inference_determinism (test_projection.TestProjectionWithKernel.test_inference_determinism)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/content/PAIMCS_model/test_paimcs/test_projection.py", line 42, in test_inference_determinism
-    output1 = self.layer(self.input_tensor, training=False)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
-    raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/projection.py", line 26, in call
-    x = self.multi_scale(x, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
-
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
-
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 5, 8), dtype=float16)
-  • training=False
-
-======================================================================
-ERROR: test_output_shape (test_projection.TestProjectionWithKernel.test_output_shape)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/content/PAIMCS_model/test_paimcs/test_projection.py", line 36, in test_output_shape
-    output = self.layer(self.input_tensor, training=False)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
-    raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/projection.py", line 26, in call
-    x = self.multi_scale(x, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
-
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
-
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 5, 8), dtype=float16)
-  • training=False
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(2, 4, 10, 8), dtype=float16)
 
 ======================================================================
 ERROR: test_reproducible_output (test_reproducibility.TestReproducibility.test_reproducible_output)
@@ -782,30 +545,26 @@ Traceback (most recent call last):
               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
-  File "/content/PAIMCS_model/paimcs/lm.py", line 43, in call
-    x = self.token_repr(token_seq, training=training)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/embeddings.py", line 28, in call
-    x = self.multi_scale_kernel(x, training=training)  # (batch, seq_len, features)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in call
-    features = [scale(x, training=training) for scale in self.scales]
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/multiscale.py", line 21, in <listcomp>
-    features = [scale(x, training=training) for scale in self.scales]
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/content/PAIMCS_model/paimcs/orthogonal.py", line 25, in build
-    "W", initializer=tf.constant_initializer(q * math.sqrt(2 * self.gamma)),
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Exception encountered when calling MultiScaleKernelFeatures.call().
+  File "/content/PAIMCS_model/paimcs/lm.py", line 48, in call
+    x = block(x, training=training)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/performer.py", line 28, in call
+    attn_out = self.attn(x, training=training)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/attention.py", line 63, in call
+    k_prime = self.favor_proj(k) # (batch, num_heads, seq_len, num_random_features)
+              ^^^^^^^^^^^^^^^^^^
+  File "/content/PAIMCS_model/paimcs/favor.py", line 35, in call
+    x_proj = tensordot(x, self.W, axes=1) + self.bias
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Exception encountered when calling FAVORProjection.call().
 
-[1mInvalid type for initial value: EagerTensor. Expected Python scalar, list or tuple of values, or numpy.ndarray.[0m
+[1m{{function_node __wrapped__MatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [160,8], In[1]: [4,8] [Op:MatMul] name: [0m
 
-Arguments received by MultiScaleKernelFeatures.call():
-  • x=tf.Tensor(shape=(2, 20, 16), dtype=float16)
-  • training=False
+Arguments received by FAVORProjection.call():
+  • x=tf.Tensor(shape=(2, 4, 20, 8), dtype=float16)
 
 ----------------------------------------------------------------------
-Ran 46 tests in 5.802s
+Ran 46 tests in 15.367s
 
-FAILED (errors=27)
+FAILED (errors=21)

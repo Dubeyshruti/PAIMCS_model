@@ -28,10 +28,8 @@ class paimcsLM(Model):
         super().__init__(dtype=float16, **kwargs)
         self.token_repr = TokenRepresentation(vocab_size, embedding_dim, conv_output_channels, groups,
                                                 num_features_per_scale, gamma_list, dropout_rate)
-        # Note: The final channel dimension after token_repr is conv_output_channels * len(gamma_list)
-        self.pos_encoding = PositionalEncoding(d_model=conv_output_channels * len(gamma_list), max_len=max_seq_len)
-        self.proj = layers.Dense(attn_dim)
-        self.dropout = layers.Dropout(dropout_rate)
+        # Note: The final channel dimension after token_repr is num_features_per_scale * len(gamma_list)
+        self.pos_encoding = PositionalEncoding(d_model=num_features_per_scale * len(gamma_list), max_len=max_seq_len)
         self.blocks = [KernelLMBlock(attn_dim, num_heads, num_random_features,
                                       conv_output_channels, groups, num_features_per_scale, gamma_list,
                                       nystrom_landmarks, dropout_rate)
@@ -42,8 +40,6 @@ class paimcsLM(Model):
         # token_seq: (batch, seq_len)
         x = self.token_repr(token_seq, training=training)
         x = self.pos_encoding(x)
-        x = self.proj(x)
-        x = self.dropout(x, training=training)
         for block in self.blocks:
             x = block(x, training=training)
         # Autoregressive next-token prediction: use the last token
