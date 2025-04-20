@@ -10,7 +10,7 @@ from paimcsLM import (
 class TestPaimcsLmModel(unittest.TestCase):
     def setUp(self):
         # Define hyperparameters for testing (adjust as needed)
-        self.vocab_size = 31542
+        self.vocab_size = 2673
         self.max_seq_len = 678
         self.embedding_dim = 360
         self.token_input_dim = 339

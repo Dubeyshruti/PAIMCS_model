@@ -414,7 +414,7 @@ class KernelLMBlock(layers.Layer):
 # 13. paimcsLm Model (Autoregressive Next-Token Prediction Model)
 # =============================================================================
 class paimcsLm(Model):
-    def __init__(self, vocab_size: int=31542, max_seq_len: int=678, embedding_dim: int=360, token_input_dim: int=339, groups: int=3,
+    def __init__(self, vocab_size: int=2673, max_seq_len: int=678, embedding_dim: int=360, token_input_dim: int=339, groups: int=3,
                  num_features_per_scale: int=120, gamma_list: List[float]=[99e-5, 0.099, 9.9], num_heads: int=3,
                  num_random_features: int=87, num_layers: int=23, dropout_rate: float = 0.099, **kwargs) -> None:
         """
