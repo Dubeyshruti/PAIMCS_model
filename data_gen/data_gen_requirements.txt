@@ -1,0 +1,6 @@
+datasets
+transformers
+tqdm
+torch
+bitsandbytes
+accelerate
