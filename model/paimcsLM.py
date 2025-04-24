@@ -239,22 +239,42 @@ class MultiScaleKernelFeatures(layers.Layer):
 class GroupedPointwiseConv1D(layers.Layer):
     def __init__(self, input_channels: int, output_channels: int, groups: int, dropout_rate: float, **kwargs) -> None:
         """
-        Grouped 1D pointwise convolution.
+        Custom grouped 1D pointwise convolution without using the 'groups' parameter.
         Args:
-            input_channels (int): Input channel dimension.
-            output_channels (int): Output channel dimension.
+            input_channels (int): Total number of input channels.
+            output_channels (int): Total number of output channels.
             groups (int): Number of groups.
             dropout_rate (float): Dropout probability.
         """
         super().__init__(dtype=tf.float16, **kwargs)
         if input_channels % groups != 0 or output_channels % groups != 0:
             raise ValueError("Channels must be divisible by groups.")
-        self.conv = layers.Conv1D(filters=output_channels, kernel_size=1, groups=groups, dtype=tf.float16)
+
+        self.groups = groups
+        self.group_in_channels = input_channels // groups
+        self.group_out_channels = output_channels // groups
+
+        self.convs = [
+            layers.Conv1D(
+                filters=self.group_out_channels,
+                kernel_size=1,
+                dtype=tf.float16
+            ) for _ in range(groups)
+        ]
         self.activation = lambda x: x * tf.sigmoid(x)
-        self.dropout = layers.Dropout(dropout_rate, dtype = tf.float16)
+        self.dropout = layers.Dropout(dropout_rate, dtype=tf.float16)
 
     def call(self, x: tf.Tensor, training: bool = False) -> tf.Tensor:
-        x = self.conv(x)
+        # Split input along the channel dimension (last dimension)
+        group_inputs = tf.split(x, num_or_size_splits=self.groups, axis=-1)
+
+        # Apply each convolution to its respective input group
+        group_outputs = [conv(g) for conv, g in zip(self.convs, group_inputs)]
+
+        # Concatenate along the channel axis
+        x = tf.concat(group_outputs, axis=-1)
+
+        # Activation and dropout
         x = self.activation(x)
         return self.dropout(x, training=training)
 
