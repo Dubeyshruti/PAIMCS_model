@@ -1,0 +1,103 @@
+sentencepiece_trainer.cc(78) LOG(INFO) Starts training with : 
+trainer_spec {
+  input_format: 
+  model_prefix: paimcs_tokenizer
+  model_type: UNIGRAM
+  vocab_size: 32109
+  self_test_sample_size: 0
+  character_coverage: 0.999988
+  input_sentence_size: 0
+  shuffle_input_sentence: 0
+  seed_sentencepiece_size: 1000000
+  shrinking_factor: 0.75
+  max_sentence_length: 4192
+  num_threads: 16
+  num_sub_iterations: 2
+  max_sentencepiece_length: 16
+  split_by_unicode_script: 1
+  split_by_number: 1
+  split_by_whitespace: 1
+  split_digits: 0
+  pretokenization_delimiter: 
+  treat_whitespace_as_suffix: 0
+  allow_whitespace_only_pieces: 0
+  user_defined_symbols: <ASST>
+  user_defined_symbols: <USER>
+  required_chars: 
+  byte_fallback: 0
+  vocabulary_output_piece_score: 1
+  train_extremely_large_corpus: 0
+  seed_sentencepieces_file: 
+  hard_vocab_limit: 1
+  use_all_vocab: 0
+  unk_id: 0
+  bos_id: 2
+  eos_id: 3
+  pad_id: 1
+  unk_piece: <unk>
+  bos_piece: <s>
+  eos_piece: </s>
+  pad_piece: <pad>
+  unk_surface:  ⁇ 
+  enable_differential_privacy: 0
+  differential_privacy_noise_level: 0
+  differential_privacy_clipping_threshold: 0
+}
+normalizer_spec {
+  name: nmt_nfkc
+  add_dummy_prefix: 1
+  remove_extra_whitespaces: 1
+  escape_whitespaces: 1
+  normalization_rule_tsv: 
+}
+denormalizer_spec {}
+trainer_interface.cc(380) LOG(WARNING) Found too long line (4305 > 4192).
+trainer_interface.cc(382) LOG(WARNING) Too long lines are skipped in the training.
+trainer_interface.cc(383) LOG(WARNING) The maximum length can be changed with --max_sentence_length=<size> flag.
+trainer_interface.cc(147) LOG(INFO) Loaded 1000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 2000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 3000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 4000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 5000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 6000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 7000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 8000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 9000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 10000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 11000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 12000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 13000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 14000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 15000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 16000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 17000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 18000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 19000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 20000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 21000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 22000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 23000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 24000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 25000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 26000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 27000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 28000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 29000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 30000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 31000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 32000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 33000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 34000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 35000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 36000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 37000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 38000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 39000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 40000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 41000000 lines
+trainer_interface.cc(147) LOG(INFO) Loaded 42000000 lines
+trainer_interface.cc(391) LOG(INFO) Reserved chars are found. Skipped: >>> READ ORIGINAL ARTICLE
+▂ ▃ ▅ ▆ THE CONTENT OF THIS BLOG IS NOT INTENDED TO CAUSE HARM, but if You have any concerns about the contents of this Blog, contact me by filling out the email form below.
+trainer_interface.cc(391) LOG(INFO) Reserved chars are found. Skipped: Thank You for visiting my Blog, Ivo R.Toniut ▂ ▃ ▅
+Posted by Ivo Toniut
+trainer_interface.cc(147) LOG(INFO) Loaded 43000000 lines
