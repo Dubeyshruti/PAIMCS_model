@@ -123,7 +123,7 @@ class LocalSelfAttention(layers.Layer):
 class FeedForward(layers.Layer):
     def __init__(self, hidden_dim, channels, dropout=0.1, **kwargs):
         super().__init__(**kwargs)
-        self.dense1 = layers.Dense(hidden_dim, activation='relu')
+        self.dense1 = layers.Dense(hidden_dim, activation='silu')
         self.dense2 = layers.Dense(channels)
         self.dropout = layers.Dropout(dropout)
 
