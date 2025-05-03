@@ -110,7 +110,7 @@ class LocalSelfAttention(layers.Layer):
 
         # Scaled dot-product
         scores = tf.einsum('bhqd,bhqkd->bhqk', q, k_windows) \
-                 / tf.math.sqrt(tf.cast(self.head_dim, self.compute_dtype))
+                 / tf.cast(tf.math.sqrt(tf.cast(self.head_dim, tf.float32)), self.compute_dtype)
         weights = tf.nn.softmax(scores, axis=-1)
 
         # Weighted sum of values
