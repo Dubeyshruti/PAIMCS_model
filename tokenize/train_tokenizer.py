@@ -46,7 +46,7 @@ def get_dataset_iterators():
             split="train",
             streaming=True
         )
-        sources.append(("OdaigenHindi", (ex.get("text", "") for ex in ds_hi)))
+        sources.append(("OdaigenHindi", (ex.get("content", "") for ex in ds_hi)))
         logger.info("Loaded Odaigen Hindi dataset (streaming).")
     except Exception as e:
         logger.error(f"Could not load Odaigen Hindi: {e}")
