@@ -1,7 +1,6 @@
 import tensorflow as tf
-from tensorflow.keras import layers, Model
 
-class DynamicConv1D(layers.Layer):
+class DynamicConv1D(tf.keras.layers.Layer):
     def __init__(self, kernel_size, num_heads, channels, **kwargs):
         super().__init__(**kwargs)
         self.kernel_size = kernel_size
@@ -53,7 +52,7 @@ class DynamicConv1D(layers.Layer):
         return out
 
 
-class LocalSelfAttention(layers.Layer):
+class LocalSelfAttention(tf.keras.layers.Layer):
     def __init__(self, heads, head_dim, window_size, **kwargs):
         super().__init__(**kwargs)
         assert window_size % 2 == 1, "window_size must be odd"
@@ -120,7 +119,7 @@ class LocalSelfAttention(layers.Layer):
         return self.unify_heads(attn)
 
 
-class FeedForward(layers.Layer):
+class FeedForward(tf.keras.layers.Layer):
     def __init__(self, hidden_dim, channels, dropout=0.1, **kwargs):
         super().__init__(**kwargs)
         self.dense1 = layers.Dense(hidden_dim, activation='silu')
@@ -142,7 +141,7 @@ class FeedForward(layers.Layer):
         return self.dropout(x)
 
 
-class ConvAttnBlock(layers.Layer):
+class ConvAttnBlock(tf.keras.layers.Layer):
     def __init__(self, channels, kernel_size, heads, window_size, mlp_dim, **kwargs):
         super().__init__(**kwargs)
         self.norm1 = layers.LayerNormalization(epsilon=1e-6)
@@ -176,9 +175,9 @@ def build_model(vocab_size=32109,
                 heads=3,
                 window_size=53,
                 mlp_dim=438):
-    inputs = layers.Input(shape=(seq_len,), dtype=tf.int32)
+    inputs = tf.keras.layers.Input(shape=(seq_len,), dtype=tf.int32)
     # token & positional embeddings
-    x = layers.Embedding(vocab_size, channels)(inputs)
+    x = tf.keras.layers.Embedding(vocab_size, channels)(inputs)
     positions = tf.range(start=0, limit=seq_len, delta=1)
     pos_emb = layers.Embedding(seq_len, channels)(positions)
     x = x + pos_emb
@@ -189,7 +188,7 @@ def build_model(vocab_size=32109,
 
     # final classification head
     logits = layers.Dense(vocab_size)(x)
-    return Model(inputs=inputs, outputs=logits)
+    return tf.keras.Model(inputs=inputs, outputs=logits)
 
 
 if __name__ == "__main__":
