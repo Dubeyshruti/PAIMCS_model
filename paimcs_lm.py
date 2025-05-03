@@ -1,5 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras import layers, Model
+tf.keras.mixed_precision.set_global_policy('mixed_float16')
 
 class DynamicConv1D(layers.Layer):
     def __init__(self, kernel_size, num_heads, channels, **kwargs):
@@ -28,8 +29,6 @@ class DynamicConv1D(layers.Layer):
         # x: [batch, seq_len, channels]
         batch = tf.shape(x)[0]
         seq_len = tf.shape(x)[1]
-        dtype = self.compute_dtype
-        x = tf.cast(x, dtype)
 
         # Predict kernels: [batch, seq_len, num_heads, kernel_size]
         kernels = self.kernel_predict(x)
@@ -80,8 +79,6 @@ class LocalSelfAttention(layers.Layer):
         # x: [batch, seq_len, channels]
         batch = tf.shape(x)[0]
         seq_len = tf.shape(x)[1]
-        dtype = self.compute_dtype
-        x = tf.cast(x, dtype)
 
         # Linear projections
         qkv = self.to_qkv(x)
@@ -141,8 +138,6 @@ class FeedForward(layers.Layer):
         super().build(input_shape)
 
     def call(self, x):
-        dtype = self.compute_dtype
-        x = tf.cast(x, dtype)
         x = self.dense1(x)
         x = self.dense2(x)
         return self.dropout(x)
@@ -168,7 +163,6 @@ class ConvAttnBlock(layers.Layer):
         super().build(input_shape)
 
     def call(self, x):
-        x = tf.cast(x, self.compute_dtype)
         x = x + self.conv(self.norm1(x))
         x = x + self.attn(self.norm2(x))
         x = x + self.ff(self.norm3(x))
