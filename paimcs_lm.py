@@ -23,7 +23,7 @@ class DynamicConv1D(tf.keras.layers.Layer):
 
     def call(self, x):
         batch = tf.shape(x)[0]
-        seq_len = tf.shape(x)[1]
+        seq_len = x.shape[1]  # Use x.shape here instead of tf.shape(x)[1]
 
         kernels = self.kernel_predict(x)
         kernels = tf.reshape(kernels,
@@ -74,7 +74,7 @@ class LocalSelfAttention(tf.keras.layers.Layer):
 
     def call(self, x):
         batch = tf.shape(x)[0]
-        seq_len = tf.shape(x)[1]
+        seq_len = x.shape[1]  # Use x.shape here instead of tf.shape(x)[1]
 
         qkv = self.to_qkv(x)
         qkv = tf.reshape(qkv,
