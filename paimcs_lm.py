@@ -10,30 +10,25 @@ class DynamicConv1D(tf.keras.layers.Layer):
         self.padding = kernel_size // 2
 
         # Sub-layer: predicts per-position, per-head kernels
-        self.kernel_predict = layers.Dense(kernel_size * num_heads)
+        self.kernel_predict = tf.keras.layers.Dense(kernel_size * num_heads)
 
     def build(self, input_shape):
-        # Validate channels
         if input_shape[-1] != self.channels:
             raise ValueError(
                 f"DynamicConv1D expected input channels={self.channels}, "
                 f"but got {input_shape[-1]}"
             )
-        # Build the Dense so its weights are created
         self.kernel_predict.build(input_shape)
         super().build(input_shape)
 
     def call(self, x):
-        # x: [batch, seq_len, channels]
         batch = tf.shape(x)[0]
         seq_len = tf.shape(x)[1]
 
-        # Predict kernels: [batch, seq_len, num_heads, kernel_size]
         kernels = self.kernel_predict(x)
         kernels = tf.reshape(kernels,
                              [batch, seq_len, self.num_heads, self.kernel_size])
 
-        # Split channels into heads
         x_heads = tf.reshape(x,
                              [batch, seq_len, self.num_heads, self.head_dim])
         x_padded = tf.pad(
@@ -41,16 +36,23 @@ class DynamicConv1D(tf.keras.layers.Layer):
             [[0, 0], [self.padding, self.padding], [0, 0], [0, 0]]
         )
 
-        # Convolution via weighted sum over sliding windows
         outputs = []
         for i in range(self.kernel_size):
-            slice_i = x_padded[:, i:i + seq_len, :, :]            # [b, seq_len, heads, head_dim]
-            weight_i = tf.expand_dims(kernels[:, :, :, i], -1)     # [b, seq_len, heads, 1]
+            slice_i = x_padded[:, i:i + seq_len, :, :]
+            weight_i = tf.expand_dims(kernels[:, :, :, i], -1)
             outputs.append(weight_i * slice_i)
-        out = tf.add_n(outputs)  # sum over kernel positions
+        out = tf.add_n(outputs)
         out = tf.reshape(out, [batch, seq_len, self.channels])
         return out
 
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "kernel_size": self.kernel_size,
+            "num_heads": self.num_heads,
+            "channels": self.channels
+        })
+        return config
 
 class LocalSelfAttention(tf.keras.layers.Layer):
     def __init__(self, heads, head_dim, window_size, **kwargs):
@@ -60,36 +62,29 @@ class LocalSelfAttention(tf.keras.layers.Layer):
         self.head_dim = head_dim
         self.window_size = window_size
 
-        # Sub-layers:
-        self.to_qkv = layers.Dense(3 * heads * head_dim, use_bias=False)
-        self.unify_heads = layers.Dense(heads * head_dim)
+        self.to_qkv = tf.keras.layers.Dense(3 * heads * head_dim, use_bias=False)
+        self.unify_heads = tf.keras.layers.Dense(heads * head_dim)
 
     def build(self, input_shape):
-        # Build QKV projection
         self.to_qkv.build(input_shape)
-        # After attention unify, output shape = (batch, seq_len, heads*head_dim)
         seq_len = input_shape[1]
         unify_shape = (input_shape[0], seq_len, self.heads * self.head_dim)
         self.unify_heads.build(unify_shape)
         super().build(input_shape)
 
     def call(self, x):
-        # x: [batch, seq_len, channels]
         batch = tf.shape(x)[0]
         seq_len = tf.shape(x)[1]
 
-        # Linear projections
         qkv = self.to_qkv(x)
         qkv = tf.reshape(qkv,
                          [batch, seq_len, self.heads, 3 * self.head_dim])
         q, k, v = tf.split(qkv, 3, axis=-1)
 
-        # Pad for local window
         pad = self.window_size // 2
         k = tf.pad(k, [[0, 0], [pad, pad], [0, 0], [0, 0]])
         v = tf.pad(v, [[0, 0], [pad, pad], [0, 0], [0, 0]])
 
-        # Frame into local windows
         k_windows = tf.signal.frame(k,
                                     frame_length=self.window_size,
                                     frame_step=1,
@@ -98,38 +93,41 @@ class LocalSelfAttention(tf.keras.layers.Layer):
                                     frame_length=self.window_size,
                                     frame_step=1,
                                     axis=1)
-        # k_windows: [b, seq_len, window, heads, head_dim]
-        # Transpose to [b, heads, seq_len, window, head_dim]
         k_windows = tf.transpose(k_windows, [0, 3, 1, 2, 4])
         v_windows = tf.transpose(v_windows, [0, 3, 1, 2, 4])
-
-        # Transpose q to [b, heads, seq_len, head_dim]
         q = tf.transpose(q, [0, 2, 1, 3])
 
-        # Scaled dot-product
         scores = tf.einsum('bhqd,bhqkd->bhqk', q, k_windows) \
                  / tf.math.sqrt(tf.cast(self.head_dim, tf.float32))
         weights = tf.nn.softmax(scores, axis=-1)
 
-        # Weighted sum of values
         attn = tf.einsum('bhqk,bhqkd->bhqd', weights, v_windows)
-        attn = tf.transpose(attn, [0, 2, 1, 3])  # [b, seq_len, heads, head_dim]
+        attn = tf.transpose(attn, [0, 2, 1, 3])
         attn = tf.reshape(attn, [batch, seq_len, self.heads * self.head_dim])
 
         return self.unify_heads(attn)
 
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "heads": self.heads,
+            "head_dim": self.head_dim,
+            "window_size": self.window_size
+        })
+        return config
 
 class FeedForward(tf.keras.layers.Layer):
     def __init__(self, hidden_dim, channels, dropout=0.1, **kwargs):
         super().__init__(**kwargs)
-        self.dense1 = layers.Dense(hidden_dim, activation='silu')
-        self.dense2 = layers.Dense(channels)
-        self.dropout = layers.Dropout(dropout)
+        self.hidden_dim = hidden_dim
+        self.channels = channels
+        self.dropout_rate = dropout
+        self.dense1 = tf.keras.layers.Dense(hidden_dim, activation='silu')
+        self.dense2 = tf.keras.layers.Dense(channels)
+        self.dropout = tf.keras.layers.Dropout(dropout)
 
     def build(self, input_shape):
-        # Build first dense
         self.dense1.build(input_shape)
-        # Output of dense1: (..., hidden_dim)
         intermediate_shape = (input_shape[0], input_shape[1], self.dense1.units)
         self.dense2.build(intermediate_shape)
         self.dropout.build(intermediate_shape)
@@ -140,15 +138,28 @@ class FeedForward(tf.keras.layers.Layer):
         x = self.dense2(x)
         return self.dropout(x)
 
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "hidden_dim": self.hidden_dim,
+            "channels": self.channels,
+            "dropout": self.dropout_rate
+        })
+        return config
 
 class ConvAttnBlock(tf.keras.layers.Layer):
     def __init__(self, channels, kernel_size, heads, window_size, mlp_dim, **kwargs):
         super().__init__(**kwargs)
-        self.norm1 = layers.LayerNormalization(epsilon=1e-6)
+        self.channels = channels
+        self.kernel_size = kernel_size
+        self.heads = heads
+        self.window_size = window_size
+        self.mlp_dim = mlp_dim
+        self.norm1 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
         self.conv = DynamicConv1D(kernel_size, heads, channels)
-        self.norm2 = layers.LayerNormalization(epsilon=1e-6)
+        self.norm2 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
         self.attn = LocalSelfAttention(heads, channels // heads, window_size)
-        self.norm3 = layers.LayerNormalization(epsilon=1e-6)
+        self.norm3 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
         self.ff = FeedForward(mlp_dim, channels)
 
     def build(self, input_shape):
@@ -166,6 +177,17 @@ class ConvAttnBlock(tf.keras.layers.Layer):
         x = x + self.ff(self.norm3(x))
         return x
 
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "channels": self.channels,
+            "kernel_size": self.kernel_size,
+            "heads": self.heads,
+            "window_size": self.window_size,
+            "mlp_dim": self.mlp_dim
+        })
+        return config
+
 
 def build_model(vocab_size=32109,
                 seq_len=1032,
@@ -176,22 +198,17 @@ def build_model(vocab_size=32109,
                 window_size=53,
                 mlp_dim=438):
     inputs = tf.keras.layers.Input(shape=(seq_len,), dtype=tf.int32)
-    # token & positional embeddings
     x = tf.keras.layers.Embedding(vocab_size, channels)(inputs)
     positions = tf.range(start=0, limit=seq_len, delta=1)
     pos_emb = layers.Embedding(seq_len, channels)(positions)
     x = x + pos_emb
 
-    # stacked Conv-Attn blocks
     for _ in range(num_layers):
         x = ConvAttnBlock(channels, kernel_size, heads, window_size, mlp_dim)(x)
 
-    # final classification head
     logits = layers.Dense(vocab_size)(x)
     return tf.keras.Model(inputs=inputs, outputs=logits)
 
-
 if __name__ == "__main__":
-    # Example usage
     model = build_model()
     model.summary()
