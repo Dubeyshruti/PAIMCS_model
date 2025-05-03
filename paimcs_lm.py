@@ -1,6 +1,5 @@
 import tensorflow as tf
 from tensorflow.keras import layers, Model
-tf.keras.mixed_precision.set_global_policy('mixed_float16')
 
 class DynamicConv1D(layers.Layer):
     def __init__(self, kernel_size, num_heads, channels, **kwargs):
@@ -110,7 +109,7 @@ class LocalSelfAttention(layers.Layer):
 
         # Scaled dot-product
         scores = tf.einsum('bhqd,bhqkd->bhqk', q, k_windows) \
-                 / tf.cast(tf.math.sqrt(tf.cast(self.head_dim, tf.float32)), self.compute_dtype)
+                 / tf.math.sqrt(tf.cast(self.head_dim, tf.float32))
         weights = tf.nn.softmax(scores, axis=-1)
 
         # Weighted sum of values
