@@ -200,7 +200,7 @@ def build_model(vocab_size=32109,
     inputs = tf.keras.layers.Input(shape=(seq_len,), dtype=tf.int32)
     x = tf.keras.layers.Embedding(vocab_size, channels)(inputs)
     positions = tf.range(start=0, limit=seq_len, delta=1)
-    pos_emb = layers.Embedding(seq_len, channels)(positions)
+    pos_emb = tf.keras.layers.Embedding(seq_len, channels)(positions)
     x = x + pos_emb
 
     for _ in range(num_layers):
