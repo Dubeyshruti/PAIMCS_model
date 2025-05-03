@@ -206,7 +206,7 @@ def build_model(vocab_size=32109,
     for _ in range(num_layers):
         x = ConvAttnBlock(channels, kernel_size, heads, window_size, mlp_dim)(x)
 
-    logits = layers.Dense(vocab_size)(x)
+    logits = tf.keras.layers.Dense(vocab_size)(x)
     return tf.keras.Model(inputs=inputs, outputs=logits)
 
 if __name__ == "__main__":
