@@ -1,6 +1,8 @@
-2025-05-02 04:26:45,693 INFO Dumping sentences to disk at temp_corpus.txt...
-2025-05-02 04:27:02,329 INFO Loaded FineWeb-Edu sample-10BT (streaming).
-2025-05-02 04:27:03,457 INFO Loaded Odaigen Hindi dataset (streaming).
-2025-05-02 06:09:39,679 INFO Sentence dumping completed.
-2025-05-02 06:09:39,685 INFO Starting SentencePiece training via file input...
-2025-05-02 06:32:12,854 INFO Training completed. Models: paimcs_tokenizer.model/.vocab
+2025-05-04 03:27:03,669 INFO Dumping sentences to disk at temp_corpus.txt...
+2025-05-04 03:27:22,830 INFO Loaded FineWeb-Edu sample-10BT (streaming).
+2025-05-04 03:27:24,447 INFO Loaded Odaigen Hindi dataset (streaming).
+2025-05-04 04:12:40,794 WARNING '(ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')), '(Request ID: 1941d38e-54b3-4837-a65e-5bff33912529)')' thrown while requesting GET https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu/resolve/4863ab07d7520451e6f73e2912ad8bfee7d97c11/sample/10BT/006_00000.parquet
+2025-05-04 04:12:40,816 WARNING Retrying in 1s [Retry 1/5].
+2025-05-04 05:25:49,888 INFO Sentence dumping completed.
+2025-05-04 05:25:49,894 INFO Starting SentencePiece training via file input...
+2025-05-04 05:59:23,070 INFO Training completed. Models: paimcs_tokenizer.model/.vocab
