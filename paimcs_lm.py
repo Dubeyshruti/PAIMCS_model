@@ -1,53 +1,5 @@
 import tensorflow as tf
 
-class DynamicConv1D(tf.keras.layers.Layer):
-    def __init__(self, kernel_size, num_heads, channels, **kwargs):
-        super().__init__(**kwargs)
-        self.kernel_size = int(kernel_size)
-        self.num_heads = int(num_heads)
-        self.channels = int(channels)
-        self.head_dim = self.channels // self.num_heads
-        self.padding = self.kernel_size // 2
-        self.kernel_predict = tf.keras.layers.Dense(self.kernel_size * self.num_heads,
-                                                    use_bias=True)
-
-    def call(self, x):
-        # x: [batch, seq_len, channels]
-        batch = tf.shape(x)[0]
-        seq_len = tf.shape(x)[1]
-
-        # predict per-position, per-head kernels
-        kernels = self.kernel_predict(x)
-        kernels = tf.reshape(kernels, [batch, seq_len, self.num_heads, self.kernel_size])
-
-        # split into heads
-        x_heads = tf.reshape(x, [batch, seq_len, self.num_heads, self.head_dim])
-        x_padded = tf.pad(x_heads,
-                          [[0, 0], [self.padding, self.padding], [0, 0], [0, 0]],
-                          mode='CONSTANT')
-
-        # compute convolution by unrolling kernel dimension (static loop)
-        outputs = []
-        for i in range(self.kernel_size):
-            slice_i = x_padded[:, i:i + seq_len, :, :]
-            weight_i = tf.expand_dims(kernels[:, :, :, i], -1)
-            outputs.append(weight_i * slice_i)
-        out = tf.add_n(outputs)
-
-        # merge heads
-        out = tf.reshape(out, [batch, seq_len, self.channels])
-        return out
-
-    def get_config(self):
-        config = super().get_config()
-        config.update({
-            "kernel_size": self.kernel_size,
-            "num_heads": self.num_heads,
-            "channels": self.channels
-        })
-        return config
-
-
 class LocalSelfAttention(tf.keras.layers.Layer):
     def __init__(self, heads, head_dim, window_size, **kwargs):
         super().__init__(**kwargs)
@@ -99,35 +51,13 @@ class LocalSelfAttention(tf.keras.layers.Layer):
         out = tf.reshape(out, [B, L, self.heads * self.head_dim])  # [B, L, H*D]
         return self.unify_heads(out)
 
-
-class FeedForward(tf.keras.layers.Layer):
-    def __init__(self, hidden_dim, channels, dropout=0.1, **kwargs):
-        super().__init__(**kwargs)
-        self.hidden_dim = int(hidden_dim)
-        self.channels = int(channels)
-        self.dropout = tf.keras.layers.Dropout(dropout)
-        self.net = tf.keras.Sequential([
-            tf.keras.layers.Dense(self.hidden_dim, activation='silu'),
-            self.dropout,
-            tf.keras.layers.Dense(self.channels),
-        ])
-
-    def call(self, x):
-        return self.net(x)
-
-    def get_config(self):
-        config = super().get_config()
-        config.update({
-            "hidden_dim": self.hidden_dim,
-            "channels": self.channels,
-            "dropout": self.dropout.rate if hasattr(self.dropout, 'rate') else None
-        })
-        return config
-
-
 class ConvAttnBlock(tf.keras.layers.Layer):
     def __init__(self, channels, kernel_size, heads, window_size, mlp_dim, **kwargs):
         super().__init__(**kwargs)
+        self.channels = channels
+        self.kernel_size = kernel_size
+        self.heads = heads
+        self.window_size = window_size
         self.mlp_dim = mlp_dim
         self.norm1 = tf.keras.layers.LayerNormalization()
         self.conv = tf.keras.layers.Conv1D(channels, kernel_size, padding='same')
@@ -153,10 +83,10 @@ class ConvAttnBlock(tf.keras.layers.Layer):
     def get_config(self):
         config = super().get_config()
         config.update({
-            "channels": self.conv.channels,
-            "kernel_size": self.conv.kernel_size,
-            "heads": self.attn.heads,
-            "window_size": self.attn.window_size,
+            "channels": self.channels,
+            "kernel_size": self.kernel_size,
+            "heads": self.heads,
+            "window_size": self.window_size,
             "mlp_dim": self.mlp_dim
         })
         return config
