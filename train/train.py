@@ -65,7 +65,12 @@ val_ds = txt_to_tf(val_ds_raw).prefetch(tf.data.AUTOTUNE)
 
 # ------------------- Model & Optimization -------------------
 with strategy.scope():
-    base_model = LM()
+    def make_prunable_model():
+        lm = LM()
+        inputs = tf.keras.Input(shape=(None,), dtype=tf.int32)
+        outputs = lm(inputs)
+        return tf.keras.Model(inputs=inputs, outputs=outputs)
+    base_model = make_prunable_model()
 
     prune_low_magnitude = tfmot.sparsity.keras.prune_low_magnitude
     pruning_params = {
