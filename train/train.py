@@ -27,15 +27,29 @@ sp = spm.SentencePieceProcessor(model_file="../tokenize/paimcs_tokenizer.model")
 
 def txt_to_tf(ds_txt, batch_size=128):
     def encode_fn(text):
-        ids = sp.encode(text.numpy().decode(), out_type=int)
-        return ids[:-1], ids[1:]
+        try:
+            # Decode Tensor to string and encode using SentencePiece
+            ids = sp.encode(text.numpy().decode('utf-8'), out_type=int)
+            # Return input-output token pairs (next-token prediction)
+            return ids[:-1], ids[1:]
+        except Exception as e:
+            # Return empty sequences on error (safe fallback)
+            return [], []
+
     def tf_encode(x):
-        inp, lbl = tf.py_function(encode_fn, [x], [tf.int32, tf.int32])
-        inp.set_shape([None]); lbl.set_shape([None])
+        # Wrap Python function for use in TensorFlow graph
+        inp, lbl = tf.py_function(func=encode_fn, inp=[x], Tout=[tf.int32, tf.int32])
+        inp.set_shape([None])
+        lbl.set_shape([None])
         return inp, lbl
-    return ds_txt.map(lambda x: tf_encode(x), num_parallel_calls=tf.data.AUTOTUNE) \
-                 .padded_batch(batch_size, padded_shapes=([None],[None])) \
-                 .prefetch(tf.data.AUTOTUNE)
+
+    return (
+        ds_txt
+        .map(tf_encode, num_parallel_calls=tf.data.AUTOTUNE)
+        .filter(lambda x, y: tf.size(x) > 0)  # Filter out empty encodings
+        .padded_batch(batch_size, padded_shapes=([None], [None]))
+        .prefetch(tf.data.AUTOTUNE)
+    )
 
 train_ds = txt_to_tf(tf_local_train)
 val_ds = txt_to_tf(tf_local_val)
