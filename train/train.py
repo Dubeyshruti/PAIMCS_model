@@ -55,9 +55,10 @@ def txt_to_tf(ds_txt, batch_size=128):
         .prefetch(tf.data.AUTOTUNE)
     )
 
-raw = tf.data.Dataset.from_tensor_slices([str(f) for f in text_files])
-val_ds_raw = raw.take(10000)
-train_ds_raw = raw.skip(10000)
+file_paths = [str(f) for f in text_files]
+split_index = int(0.1 * len(file_paths))
+val_ds_raw = tf.data.Dataset.from_tensor_slices(file_paths[:split_index])
+train_ds_raw = tf.data.Dataset.from_tensor_slices(file_paths[split_index:])
 
 train_ds = txt_to_tf(train_ds_raw).shuffle(10000).prefetch(tf.data.AUTOTUNE)
 val_ds = txt_to_tf(val_ds_raw).prefetch(tf.data.AUTOTUNE)
