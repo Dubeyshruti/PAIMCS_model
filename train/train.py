@@ -92,8 +92,6 @@ model.fit(
     train_ds,
     validation_data=val_ds,
     epochs=4,
-    steps_per_epoch=5310,
-    validation_steps=201,
     callbacks=callbacks
 )
 
