@@ -6,7 +6,7 @@ import numpy as np
 # Define the Transformer model
 class LM(Model):
     def __init__(self, vocab_size=32109, emb_size=243, num_heads=3, num_layers=23, ff_dim=438, dropout_rate=0.1):
-        super(TransformerLanguageModel, self).__init__()
+        super(LM, self).__init__()
         
         self.embedding = Embedding(vocab_size, emb_size)
         self.dropout = Dropout(dropout_rate)
