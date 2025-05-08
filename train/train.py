@@ -3,7 +3,6 @@ from pathlib import Path
 import tensorflow as tf
 import numpy as np
 import sentencepiece as spm
-import tensorflow_model_optimization as tfmot
 import sys
 sys.path.append("..")
 from paimcs_lm import LM
@@ -65,27 +64,7 @@ val_ds = txt_to_tf(val_ds_raw).prefetch(tf.data.AUTOTUNE)
 
 # ------------------- Model & Optimization -------------------
 with strategy.scope():
-    def make_prunable_model():
-        lm = LM()
-        inputs = tf.keras.Input(shape=(None,), dtype=tf.int32)
-        outputs = lm(inputs)
-        return tf.keras.Model(inputs=inputs, outputs=outputs)
-    base_model = make_prunable_model()
-
-    prune_low_magnitude = tfmot.sparsity.keras.prune_low_magnitude
-    pruning_params = {
-        'pruning_schedule': tfmot.sparsity.keras.PolynomialDecay(
-            initial_sparsity=0.0,
-            final_sparsity=0.5,
-            begin_step=1000,
-            end_step=10000,
-        )
-    }
-    pruned_model = prune_low_magnitude(base_model, **pruning_params)
-
-    quantize_annotate = tfmot.quantization.keras.quantize_annotate_model
-    annotated_model = quantize_annotate(pruned_model)
-    qat_model = tfmot.quantization.keras.quantize_apply(annotated_model)
+    model = LM()
 
     total_steps = 5310 * 4
     lr_schedule = tf.keras.optimizers.schedules.CosineDecayRestarts(
@@ -93,7 +72,7 @@ with strategy.scope():
         first_decay_steps=total_steps,
     )
     optimizer = tf.keras.optimizers.AdamW(learning_rate=lr_schedule, weight_decay=1e-4, clipnorm=1.0)
-    qat_model.compile(
+    model.compile(
         optimizer=optimizer,
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
         metrics=[tf.keras.metrics.SparseCategoricalAccuracy()]
@@ -101,16 +80,15 @@ with strategy.scope():
 
 # ------------------- Callbacks -------------------
 callbacks = [
-    tfmot.sparsity.keras.UpdatePruningStep(),
     tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2, restore_best_weights=True),
     tf.keras.callbacks.ModelCheckpoint(
-        '../../paimcs_lm_qat_pruned.keras', save_best_only=True, monitor='val_loss'
+        '../../paimcs_lm_final.keras', save_best_only=True, monitor='val_loss'
     ),
     tf.keras.callbacks.TensorBoard(log_dir='./logs'),
 ]
 
 # ------------------- Training -------------------
-qat_model.fit(
+model.fit(
     train_ds,
     validation_data=val_ds,
     epochs=4,
@@ -120,10 +98,9 @@ qat_model.fit(
 )
 
 # ------------------- Model Saving -------------------
-final_model = tfmot.sparsity.keras.strip_pruning(qat_model)
-final_model.save('../../paimcs_lm_final.keras')
+model.save('../../paimcs_lm_final.keras')
 
-converter = tf.lite.TFLiteConverter.from_keras_model(final_model)
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
 converter.target_spec.supported_ops = [
     tf.lite.OpsSet.TFLITE_BUILTINS,
@@ -136,4 +113,4 @@ tflite_model = converter.convert()
 with open('paimcs_lm.tflite', 'wb') as f:
     f.write(tflite_model)
 
-print('Training, pruning, QAT, and conversion complete.')
+print('Training and conversion complete.')
