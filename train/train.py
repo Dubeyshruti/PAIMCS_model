@@ -8,27 +8,31 @@ import sys
 sys.path.append("..")
 from paimcs_lm import LM
 
-# ------------------- TPU Setup -------------------
-resolver = tf.distribute.cluster_resolver.TPUClusterResolver()
-tf.config.experimental_connect_to_cluster(resolver)
-tf.tpu.experimental.initialize_tpu_system(resolver)
-strategy = tf.distribute.TPUStrategy(resolver)
+# ------------------- GPU Strategy Setup -------------------
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+        strategy = tf.distribute.MirroredStrategy()
+        print(f"Using MirroredStrategy with {strategy.num_replicas_in_sync} replicas")
+    except RuntimeError as e:
+        print(e)
+else:
+    strategy = tf.distribute.get_strategy()
+    print("Using default strategy (no GPU available)")
 
 # ------------------- Data Pipeline -------------------
-# Gather text files
 text_files = list(Path("/kaggle/input").rglob("*.txt"))
 print(f"Found {len(text_files)} text files for training.")
 
-# SentencePiece tokenizer
 sp = spm.SentencePieceProcessor(model_file="../tokenize/paimcs_tokenizer.model")
 
-# Filter out empty or punctuation-only lines
 @tf.function
 def is_valid_line(line):
     stripped = tf.strings.strip(line)
     return tf.logical_not(tf.strings.regex_full_match(stripped, r"[\.\|\s]*"))
 
-# Encode function for dataset
 def txt_to_tf(ds_txt, batch_size=128):
     def encode_fn(text):
         ids = sp.encode(text.numpy().decode('utf-8'), out_type=int)
@@ -50,23 +54,17 @@ def txt_to_tf(ds_txt, batch_size=128):
         .prefetch(tf.data.AUTOTUNE)
     )
 
-# Create raw dataset
 raw = tf.data.Dataset.from_tensor_slices([str(f) for f in text_files])
-
-# Split
 val_ds_raw = raw.take(10000)
 train_ds_raw = raw.skip(10000)
 
-# Prepare tf datasets
 train_ds = txt_to_tf(train_ds_raw).shuffle(10000).prefetch(tf.data.AUTOTUNE)
 val_ds = txt_to_tf(val_ds_raw).prefetch(tf.data.AUTOTUNE)
 
 # ------------------- Model & Optimization -------------------
 with strategy.scope():
-    # Instantiate base model
     base_model = LM()
 
-    # Apply pruning (structured followed by unstructured)
     prune_low_magnitude = tfmot.sparsity.keras.prune_low_magnitude
     pruning_params = {
         'pruning_schedule': tfmot.sparsity.keras.PolynomialDecay(
@@ -78,15 +76,11 @@ with strategy.scope():
     }
     pruned_model = prune_low_magnitude(base_model, **pruning_params)
 
-    # Apply quantization-aware training
     quantize_annotate = tfmot.quantization.keras.quantize_annotate_model
-    quantize_scope = tfmot.quantization.keras.quantize_scope
     annotated_model = quantize_annotate(pruned_model)
     qat_model = tfmot.quantization.keras.quantize_apply(annotated_model)
 
-    # Compile with optimizer and LR schedule
     total_steps = 5310 * 4
-    warmup = 10000
     lr_schedule = tf.keras.optimizers.schedules.CosineDecayRestarts(
         initial_learning_rate=5.31e-4,
         first_decay_steps=total_steps,
@@ -119,16 +113,11 @@ qat_model.fit(
 )
 
 # ------------------- Model Saving -------------------
-# Strip pruning wrappers for inference
 final_model = tfmot.sparsity.keras.strip_pruning(qat_model)
-
-# Save Keras model
 final_model.save('../../paimcs_lm_final.keras')
 
-# Convert to TFLite (QAT)
 converter = tf.lite.TFLiteConverter.from_keras_model(final_model)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
-# Ensure QAT support
 converter.target_spec.supported_ops = [
     tf.lite.OpsSet.TFLITE_BUILTINS,
     tf.lite.OpsSet.TFLITE_BUILTINS_INT8
