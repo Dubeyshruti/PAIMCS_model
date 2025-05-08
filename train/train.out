@@ -1,26 +1,63 @@
-2025-05-08 16:22:40.453403: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:477] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2025-05-08 18:15:01.235803: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:477] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-E0000 00:00:1746721360.651017      88 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
-E0000 00:00:1746721360.708696      88 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
-I0000 00:00:1746721373.104108      88 gpu_device.cc:2022] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 15513 MB memory:  -> device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:00:04.0, compute capability: 6.0
+E0000 00:00:1746728101.422383      56 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1746728101.479544      56 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+I0000 00:00:1746728114.512338      56 gpu_device.cc:2022] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 15513 MB memory:  -> device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:00:04.0, compute capability: 6.0
+Using MirroredStrategy with 1 replicas
 Found 31 text files for training.
 Epoch 1/4
-WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-I0000 00:00:1746722278.489444     111 service.cc:148] XLA service 0x78f6e00031d0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
-I0000 00:00:1746722278.490678     111 service.cc:156]   StreamExecutor device (0): Tesla P100-PCIE-16GB, Compute Capability 6.0
-Traceback (most recent call last):
-  File "/kaggle/working/PAIMCS_model/train/train.py", line 104, in <module>
-    model.fit(train_ds, validation_data=val_ds, epochs=4, steps_per_epoch=5310, validation_steps=201, callbacks=callbacks)
+/usr/local/lib/python3.11/dist-packages/keras/src/backend/tensorflow/nn.py:635: UserWarning: "`sparse_categorical_crossentropy` received `from_logits=True`, but the `output` argument was produced by a Softmax activation and thus does not represent logits. Was this intended?
+  output, from_logits = _get_logits(
+      1/Unknown [1m728s[0m 728s/step - loss: 10.4590 - sparse_categorical_accuracy: 0.0000e+00      2/Unknown [1m729s[0m 825ms/step - loss: 10.2707 - sparse_categorical_accuracy: 0.1760         3/Unknown [1m729s[0m 708ms/step - loss: 10.1455 - sparse_categorical_accuracy: 0.2551      4/Unknown [1m730s[0m 664ms/step - loss: 10.0332 - sparse_categorical_accuracy: 0.3103      5/Unknown [1m731s[0m 740ms/step - loss: 9.9248 - sparse_categorical_accuracy: 0.3568       6/Unknown [1m732s[0m 782ms/step - loss: 9.8314 - sparse_categorical_accuracy: 0.3922      7/Unknown [1m732s[0m 761ms/step - loss: 9.7518 - sparse_categorical_accuracy: 0.4191      8/Unknown [1m733s[0m 767ms/step - loss: 9.6811 - sparse_categorical_accuracy: 0.4405      9/Unknown [1m734s[0m 772ms/step - loss: 9.6137 - sparse_categorical_accuracy: 0.4594     10/Unknown [1m735s[0m 781ms/step - loss: 9.5477 - sparse_categorical_accuracy: 0.4768     11/Unknown [1m735s[0m 767ms/step - loss: 9.4877 - sparse_categorical_accuracy: 0.4910     12/Unknown [1m736s[0m 774ms/step - loss: 9.4299 - sparse_categorical_accuracy: 0.5038Traceback (most recent call last):
+  File "/kaggle/working/PAIMCS_model/train/train.py", line 92, in <module>
+    model.fit(
   File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 122, in error_handler
     raise e.with_traceback(filtered_tb) from None
   File "/usr/local/lib/python3.11/dist-packages/tensorflow/python/eager/execute.py", line 53, in quick_execute
     tensors = pywrap_tfe.TFE_Py_Execute(ctx._handle, device_name, op_name,
   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-tensorflow.python.framework.errors_impl.InvalidArgumentError: Graph execution error:
+tensorflow.python.framework.errors_impl.ResourceExhaustedError: Graph execution error:
 
-Detected at node functional_27_1/Add defined at (most recent call last):
-<stack traces unavailable>
-Incompatible shapes: [128,114,243] vs. [1032,243]
-	 [[{{node functional_27_1/Add}}]]
-	tf2xla conversion failed while converting __inference_one_step_on_data_276450[]. Run with TF_DUMP_GRAPH_PREFIX=/path/to/dump/dir and --vmodule=xla_compiler=2 to obtain a dump of the compiled functions.
-	 [[StatefulPartitionedCall]] [Op:__inference_one_step_on_iterator_278909]
+Detected at node lm_1/dense_46_1/Softmax defined at (most recent call last):
+  File "/usr/lib/python3.11/threading.py", line 1002, in _bootstrap
+
+  File "/usr/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/backend/tensorflow/trainer.py", line 108, in one_step_on_data
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/backend/tensorflow/trainer.py", line 51, in train_step
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 117, in error_handler
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/layers/layer.py", line 901, in __call__
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 117, in error_handler
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/ops/operation.py", line 46, in __call__
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 156, in error_handler
+
+  File "/kaggle/working/PAIMCS_model/train/../paimcs_lm.py", line 27, in call
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 117, in error_handler
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/layers/layer.py", line 901, in __call__
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 117, in error_handler
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/ops/operation.py", line 46, in __call__
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/utils/traceback_utils.py", line 156, in error_handler
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/layers/core/dense.py", line 148, in call
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/activations/activations.py", line 158, in softmax
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/ops/nn.py", line 570, in softmax
+
+  File "/usr/local/lib/python3.11/dist-packages/keras/src/backend/tensorflow/nn.py", line 88, in softmax
+
+OOM when allocating tensor with shape[128,116,32109] and type float on /job:localhost/replica:0/task:0/device:GPU:0 by allocator GPU_0_bfc
+	 [[{{node lm_1/dense_46_1/Softmax}}]]
+Hint: If you want to see a list of allocated tensors when OOM happens, add report_tensor_allocations_upon_oom to RunOptions for current allocation info. This isn't available when running in Eager mode.
+ [Op:__inference_one_step_on_iterator_3970441]
