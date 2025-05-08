@@ -82,7 +82,7 @@ model.compile(optimizer=optimizer, loss=tf.keras.losses.SparseCategoricalCrossen
 #  Callbacks: earlystop, checkpoint, tensorboard
 callbacks = [
     tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2, restore_best_weights=True),
-    tf.keras.callbacks.ModelCheckpoint('paimcs_lm.keras', save_weights_only=False, save_best_only=True, monitor='val_loss'),
+    tf.keras.callbacks.ModelCheckpoint('../../paimcs_lm_ckpt.keras', save_weights_only=False, save_best_only=True, monitor='val_loss'),
     tf.keras.callbacks.TensorBoard(log_dir='.'),
 ]
 
