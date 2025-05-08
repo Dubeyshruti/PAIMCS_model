@@ -33,6 +33,9 @@ def is_valid_line(line):
     stripped = tf.strings.strip(line)
     return tf.logical_not(tf.strings.regex_full_match(stripped, r"[\.\|\s]*"))
 
+def process_file(file_path):
+    return tf.data.TextLineDataset(file_path).filter(is_valid_line)
+
 def txt_to_tf(ds_txt, batch_size=128):
     def encode_fn(text):
         ids = sp.encode(text.numpy().decode('utf-8'), out_type=int)
@@ -46,8 +49,7 @@ def txt_to_tf(ds_txt, batch_size=128):
 
     return (
         ds_txt
-        .map(lambda f: tf.data.TextLineDataset(f).filter(is_valid_line), num_parallel_calls=tf.data.AUTOTUNE)
-        .flatten()
+        .interleave(process_file, cycle_length=tf.data.AUTOTUNE, num_parallel_calls=tf.data.AUTOTUNE)
         .map(tf_encode, num_parallel_calls=tf.data.AUTOTUNE)
         .filter(lambda x, y: tf.size(x) > 0)
         .padded_batch(batch_size, padded_shapes=([None], [None]))
