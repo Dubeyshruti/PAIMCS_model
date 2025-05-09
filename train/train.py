@@ -35,7 +35,7 @@ def is_valid_line(line):
 def process_file(file_path):
     return tf.data.TextLineDataset(file_path).filter(is_valid_line)
 
-def txt_to_tf(ds_txt, batch_size=128):
+def txt_to_tf(ds_txt, batch_size=8):
     def encode_fn(text):
         ids = sp.encode(text.numpy().decode('utf-8'), out_type=int)
         return ids[:-1], ids[1:]
@@ -75,7 +75,7 @@ with strategy.scope():
     optimizer = tf.keras.optimizers.AdamW(learning_rate=lr_schedule, weight_decay=1e-4, clipnorm=1.0)
     model.compile(
         optimizer=optimizer,
-        loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+        loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
         metrics=[tf.keras.metrics.SparseCategoricalAccuracy()]
     )
 
